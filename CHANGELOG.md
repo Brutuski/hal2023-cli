@@ -4,10 +4,6 @@
         <img alt="Script" src="https://img.shields.io/badge/Shell_Script-121011?style=for-the-badge&logo=gnu-bash&logoColor=white">
         <img alt="License" src="https://img.shields.io/badge/MIT-LICENSE-1976D2?style=for-the-badge">
 </p>
-### Index
-* [v1.0.0](#v1.0.0)
-* [Versioning System](#versioning-system)
-* [License](#license)
 
 #### v1.0.0
 _23/01/2023_
