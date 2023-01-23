@@ -38,7 +38,7 @@ Open [this link](https://beta.openai.com/account/api-keys) and generate an API k
 
 -   
     -   ```sh
-          curl -sS https://raw.githubusercontent.com/Brutuski/hal2023-cli/main/hal2023.sh 
+          curl -sS https://raw.githubusercontent.com/Brutuski/hal2023-cli/main/hal2023.sh -o hal2023.sh
         ```
     -   Input your personal API key into `api_key.txt` file either manually or by running the following command. _Please make sure to replace the word api_key with your personal API key instead._
         ```sh
