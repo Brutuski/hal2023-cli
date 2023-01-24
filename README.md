@@ -13,6 +13,7 @@
 -   [Requirements](#requirements)
 -   [Installation](#installation)
 -   [Usage](#usage)
+-   [Uninstall](#uninstall)
 -   [Options](#options)
 -   [Changelog](#changelog)
 -   [Issues](#issues)
@@ -21,7 +22,7 @@
 #### Getting Started
 You would need an API key from [OpenAI](https://openai.com) to interface with [ChatGPT](https://openai.com/blog/chatgpt/).
 Open [this link](https://beta.openai.com/account/api-keys) and generate an API key for yourself.
-
+Upon installation, this CLI stores your personal API key in a file called `.chat-api-key` in your `Home` directory.
 #### Screenshots
 
 <p align="center"><img src="./Screenshots/screenshot-1.png"><p>
@@ -33,49 +34,42 @@ Open [this link](https://beta.openai.com/account/api-keys) and generate an API k
 -   [jq](https://stedolan.github.io/jq/)
 
 #### Installation
-
-**Manual method:**
-
--   
-    -   ```sh
-          curl -sS https://raw.githubusercontent.com/Brutuski/hal2023-cli/main/hal2023.sh -o hal2023.sh
-        ```
-    -   Input your personal API key into `api_key.txt` file either manually or by running the following command. _Please make sure to replace the word api_key with your personal API key instead._
-        ```sh
-          echo "api_key" > api_key.text
-        ```
-    -   Make the file executable
-        ```sh
-          chmod 755 hal2023.sh
-        ```
-    -   Run the script
-        ```sh
-          ./hal2023.sh
-        ```
+-   Clone the repo
+    ```sh
+    git clone https://github.com/Brutuski/hal2023-cli.git
+    ```
+-  Change directory 
+    ```sh
+    cd hal2023-cli
+    ```
+-   Run the script
+    ```sh
+    make install
+    ```
 
 #### Usage
--   Run the script
-```sh
-./hal2023.sh
-```
+-   Run the command `hal2023`
 -   To exit simply type `exit` or `quit` or `:q`
+-   More options:
+    ```sh
+    make about
+    make help
+    ```
+
+#### Uninstall
+```sh
+make uninstall
+```
 
 #### Changelog
-
 ```vim
-v 1.0.0
+v 1.1.0
 ```
 
 Changes can be tracked in the [CHANGELOG](https://github.com/Brutuski/hal2023-cli/blob/main/CHANGELOG.md)
 
 #### Issues
-
 Please report any bugs or issues [here](https://github.com/Brutuski/hal2023-cli/issues).
 
 #### License
-
 [MIT](https://github.com/Brutuski/hal2023-cli/blob/main/LICENSE)
-
-_Copyright (c) 2023 Adhiraj Sirohi_
-
-#### Logo Credit
