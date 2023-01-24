@@ -7,7 +7,12 @@
 
 #### v1.0.0
 _23/01/2023_
-- Initial Release 
+- Initial Release.
+
+#### v1.1.0
+_24/01/2023_
+- Added a `Makefile` for easy installation.
+- Cleaned up the script.
 
 #### Versioning System
 HAL-2023 CLI uses [Semantic versioning 2.0.0](https://semver.org)

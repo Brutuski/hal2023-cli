@@ -1,11 +1,4 @@
-#!/bin/bash
-
-## GLOBAL VARIABLES ##
-
-_NAME="HAL 2023 CLI"
-_VERSION="v1.0.0"
-_SOURCE="https://www.github.com/brutuski/"
-_ABOUT="A simple CLI to interract with OpenAI's ChatGPT"
+#!/usr/bin/env bash
 
 ## COLORS ##
 BLACK='\033[0;30m'
@@ -29,24 +22,8 @@ _ASCII=$(cat << EOF
 EOF
 )
 
-## API RELATED ##
-api_key=$(<api_key.txt)
-
-## FUNCTIONS ##
-
-function about(){
-    echo -e "Name:    ${WHITE}$_NAME${RESET}"
-    echo -e "Version: ${WHITE}$_VERSION${RESET}"
-    echo -e "Source:  ${WHITE}$_SOURCE${RESET}"
-    echo -e "About:   ${WHITE}$_ABOUT${RESET}"
-    exit 0
-}
-
-function help(){
-    echo "hal2023 -h -> Help"
-    echo "hal2023 -v -> About"
-    exit 0
-}
+## API KEY ##
+api_key=$(<~/.chat-gpt-api)
 
 while getopts "ha" opt; do
     case "$opt" in
