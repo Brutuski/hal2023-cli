@@ -1,4 +1,4 @@
-<h2 align="center">HAL-2023</h2>
+<h2 align="center">HAL 2023</h2>
 <h4 align="center">A simple script to chat with OpenAI's ChatGPT</h4>
 <p align="center"><img src="icon.png" width="150" height="150"><p>
 <p align="center">
@@ -52,6 +52,7 @@ Upon installation, this CLI stores your personal API key in a file called `.chat
 -   To exit simply type `exit` or `quit` or `:q`
 -   More options:
     ```sh
+    make check
     make about
     make help
     ```
@@ -63,7 +64,7 @@ make uninstall
 
 #### Changelog
 ```vim
-v 1.2.0
+v 1.2.1
 ```
 
 Changes can be tracked in the [CHANGELOG](https://github.com/Brutuski/hal2023-cli/blob/main/CHANGELOG.md)

@@ -18,6 +18,10 @@ _24/01/2023_
 _02/03/2023_
 - Added Error Message Handling
 
+#### v1.2.1
+_02/03/2023_
+- Added 'Check Requirements' to Makefile
+
 #### Versioning System
 HAL-2023 CLI uses [Semantic versioning 2.0.0](https://semver.org)
 

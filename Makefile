@@ -1,13 +1,20 @@
 PREFIX ?= /usr/local/bin
 API_KEY ?= $(shell bash -c 'read -p "Enter your OpenAI API key: " api_key; echo $$api_key > ~/.chat-gpt-api')
+REQUIREMENTS ?= $(shell ./check_requirements.sh)
+
 
 .PHONY: default
 default:
 	@echo "\n|================================================================|"
-	@echo "|    Run '\033[1msudo make install\033[0m' to install HAL2023                  |"
+	@echo "|    Run '\033[1mmake check\033[0m' to check for requirements.                 |"
+	@echo "|    Run '\033[1msudo make install\033[0m' to install.                         |"
 	@echo "|    Run '\033[1msudo make uninstall\033[0m' to uninstall HAL2023              |"
 	@echo "|    Run '\033[1mmake about\033[0m' for more information regarding  HAL2023    |"
 	@echo "|================================================================|\n"
+
+.PHONY: check
+check:
+	@echo $(REQUIREMENTS)
 
 .PHONY: install
 install:
@@ -33,6 +40,6 @@ uninstall:
 .PHONY: about
 about:
 	@echo "Name:    HAL2023 CLI"
-	@echo "Version: v1.1.0"
+	@echo "Version: v1.2.1"
 	@echo "Source:  https://www.github.com/brutuski/hal2023-cli"
 	@echo "         A simple CLI to interract with OpenAI's ChatGPT"
