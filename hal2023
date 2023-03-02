@@ -36,6 +36,15 @@ done
 printf "\033c"
 echo -e "\n${YELLOW}${_ASCII}${RESET}\n"
 
+# Checks for ChatGPT Error Message
+connectionError() {
+  if echo "$1" | jq -e '' >/dev/null; then
+    echo -e "Your message failed to reach Open AI's API."
+    echo -e "Please check your API key to make sure it is correct"
+    exit 0
+  fi
+}
+
 while true; do
   echo -e "\n\033[2mType exit, quit or :q to exit.\033[0m"
   echo -e "${WHITE}Write a message...${RESET}"
@@ -62,6 +71,7 @@ while true; do
   			"temperature": 1.0
 	}' | jq -r '.choices[].text' | sed '1d')
 
+  connectionError "$response"
 	echo -e "\n${CYAN}\033[1mChatGPT:\033[0m${RESET}\n${GREEN}${response}${RESET}"
   fi
 done

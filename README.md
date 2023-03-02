@@ -63,7 +63,7 @@ make uninstall
 
 #### Changelog
 ```vim
-v 1.1.0
+v 1.2.0
 ```
 
 Changes can be tracked in the [CHANGELOG](https://github.com/Brutuski/hal2023-cli/blob/main/CHANGELOG.md)
