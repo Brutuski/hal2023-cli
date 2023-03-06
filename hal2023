@@ -11,7 +11,9 @@ CYAN='\033[0;36m'
 WHITE='\033[0;37m'
 RESET='\033[0m'
 
-## FORMATTING ##
+## Formatting ##
+
+# Logo
 _ASCII=$(cat << EOF
 ██╗  ██╗ █████╗ ██╗         ██████╗  ██████╗ ██████╗ ██████╗
 ██║  ██║██╔══██╗██║         ╚════██╗██╔═████╗╚════██╗╚════██╗
@@ -22,8 +24,12 @@ _ASCII=$(cat << EOF
 EOF
 )
 
-## API KEY ##
+# Labels
+CHATGPT="${CYAN}\033[1mChatGPT:\033[0m${RESET}"
+
+## API Key ##
 api_key=$(<~/.chat-gpt-api)
+
 
 while getopts "ha" opt; do
     case "$opt" in
@@ -36,7 +42,7 @@ done
 printf "\033c"
 echo -e "\n${YELLOW}${_ASCII}${RESET}\n"
 
-# Checks for ChatGPT Error Message
+## Checks for ChatGPT Error Message ##
 connectionError() {
   if echo "$1" | jq -e '' >/dev/null; then
     echo -e "Your message failed to reach Open AI's API."
@@ -45,7 +51,7 @@ connectionError() {
   fi
 }
 
-# Parses response from chatGPT
+## Parses response from chatGPT ##
 chatResponse() {
 	response=$(curl https://api.openai.com/v1/completions -sS \
   		-H 'Content-Type: application/json' \
@@ -58,7 +64,7 @@ chatResponse() {
 	}' | jq -r '.choices[].text' | sed '1d')
 
   connectionError "$response"
-	echo -e "\n${CYAN}\033[1mChatGPT:\033[0m${RESET}\n${GREEN}${response}${RESET}"
+	echo -e "\n${CHATGPT}${GREEN}${response}${RESET}"
 }
 
 while true; do
@@ -75,6 +81,12 @@ while true; do
   elif [ "$input" == ":q" ]; then
       echo -e "\nSuccessfuly quit HAL2023\n"
       exit 0
+  elif [[ "$input" == "hst-"* ]]; then
+      # Timestamp for history
+      now=$(date +'%d/%m/%y at %H:%M')
+#      user_input=$("$input" | cut -c5-)
+#      localResponse=$(chatResponse)
+#      echo -e "｢${now}｣\n${user_input} \nChatGPT: ${localResponse}\n" >>~/.hal2023_history.txt
   else
     chatResponse
   fi
