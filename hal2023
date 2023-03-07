@@ -52,7 +52,6 @@ connectionError() {
 }
 
 ## Parses response from chatGPT ##
-## Changed default model to gpt-3.5-turbo
 chatResponse() {
   response=$(curl -sS https://api.openai.com/v1/chat/completions \
                     -H "Authorization: Bearer $api_key" \
