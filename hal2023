@@ -52,25 +52,26 @@ connectionError() {
 }
 
 ## Parses response from chatGPT ##
+## Changed default model to gpt-3.5-turbo
 chatResponse() {
-	response=$(curl https://api.openai.com/v1/completions -sS \
-  		-H 'Content-Type: application/json' \
-  		-H "Authorization: Bearer $api_key" \
-  		-d '{
-  			"model": "text-davinci-003",
-  			"prompt": "'"${input}"'",
-  			"max_tokens": 4000,
-  			"temperature": 1.0
-	}' | jq -r '.choices[].text' | sed '1d')
+  response=$(curl -sS https://api.openai.com/v1/chat/completions \
+                    -H "Authorization: Bearer $api_key" \
+                    -H "Content-Type: application/json" \
+                    -d '{
+                    "model": "gpt-3.5-turbo",
+                    "messages": [{"role": "user", "content": "'"${input}"'"}],
+                    "max_tokens": 2048,
+                    "temperature": 0.7
+                    }' | jq -r '.choices[].message.content' | sed '1,2d')
 
   connectionError "$response"
-	echo -e "\n${CHATGPT}${GREEN}${response}${RESET}"
+	echo -e "\n${CHATGPT} ${GREEN}${response}${RESET}"
 }
 
 while true; do
   echo -e "\n\033[2mType exit, quit or :q to exit.\033[0m"
   echo -e "${WHITE}Write a message...${RESET}"
-  read input
+  read -r input
 
   if [ "$input" == "exit" ]; then
       echo -e "\nSuccessfuly quit HAL2023\n"
@@ -81,12 +82,6 @@ while true; do
   elif [ "$input" == ":q" ]; then
       echo -e "\nSuccessfuly quit HAL2023\n"
       exit 0
-  elif [[ "$input" == "hst-"* ]]; then
-      # Timestamp for history
-      now=$(date +'%d/%m/%y at %H:%M')
-#      user_input=$("$input" | cut -c5-)
-#      localResponse=$(chatResponse)
-#      echo -e "｢${now}｣\n${user_input} \nChatGPT: ${localResponse}\n" >>~/.hal2023_history.txt
   else
     chatResponse
   fi

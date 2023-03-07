@@ -23,6 +23,8 @@
 You would need an API key from [OpenAI](https://openai.com) to interface with [ChatGPT](https://openai.com/blog/chatgpt/).
 Open [this link](https://beta.openai.com/account/api-keys) and generate an API key for yourself.
 Upon installation, this CLI stores your personal API key in a file called `.chat-api-key` in your `Home` directory.
+
+This CLI is using the `gpt-3.5-turbo` model. You can read more about it [here](https://platform.openai.com/docs/guides/chat).
 #### Screenshots
 
 <p align="center"><img src="./Screenshots/screenshot-1.png"><p>
@@ -64,7 +66,7 @@ make uninstall
 
 #### Changelog
 ```vim
-v 1.2.1
+v 1.3.1
 ```
 
 Changes can be tracked in the [CHANGELOG](https://github.com/Brutuski/hal2023-cli/blob/main/CHANGELOG.md)

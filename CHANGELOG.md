@@ -22,8 +22,13 @@ _02/03/2023_
 _02/03/2023_
 - Added 'Check Requirements' to Makefile
 
+#### v1.3.1
+_07/03/2023_
+- Changed default model to `gpt-3.5-turbo`
+- Moved unfinished _history_ feature to `alpha branch`.
+
 #### Versioning System
-HAL-2023 CLI uses [Semantic versioning 2.0.0](https://semver.org)
+HAL 2023 CLI uses [Semantic versioning 2.0.0](https://semver.org)
 
 #### License
 [MIT](https://github.com/Brutuski/hal2023-cli/blob/main/LICENSE)
