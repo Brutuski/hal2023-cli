@@ -14,7 +14,8 @@ RESET='\033[0m'
 ## Formatting ##
 
 # Logo
-_ASCII=$(cat << EOF
+_ASCII=$(
+  cat <<EOF
 ██╗  ██╗ █████╗ ██╗         ██████╗  ██████╗ ██████╗ ██████╗
 ██║  ██║██╔══██╗██║         ╚════██╗██╔═████╗╚════██╗╚════██╗
 ███████║███████║██║          █████╔╝██║██╔██║ █████╔╝ █████╔╝
@@ -30,14 +31,11 @@ CHATGPT="${CYAN}\033[1mChatGPT:\033[0m${RESET}"
 ## API Key ##
 api_key=$(<~/.chat-gpt-api)
 
+## Default Parameters
+TEMP=${TEMP:-0.8}
+MAX_TOKENS=${MAX_TOKENS:-2048}
 
-while getopts "ha" opt; do
-    case "$opt" in
-        h) help;;
-        a) about;;
-        *) exit 1;;
-    esac
-done
+#ROLE_SYSTEM="You are ChatGPT. Please answer each query in a precise and short manner. Don't show more than 10 items in a list."
 
 printf "\033c"
 echo -e "\n${YELLOW}${_ASCII}${RESET}\n"
@@ -53,19 +51,38 @@ connectionError() {
 
 ## Parses response from chatGPT ##
 chatResponse() {
+  user_input=$1
   response=$(curl -sS https://api.openai.com/v1/chat/completions \
-                    -H "Authorization: Bearer $api_key" \
-                    -H "Content-Type: application/json" \
-                    -d '{
+    -H "Authorization: Bearer $api_key" \
+    -H "Content-Type: application/json" \
+    -d '{
                     "model": "gpt-3.5-turbo",
-                    "messages": [{"role": "user", "content": "'"${input}"'"}],
-                    "max_tokens": 2048,
-                    "temperature": 0.7
+                    "messages": [
+                                  {"role": "user", "content": "'"$user_input"'"}
+                                ],
+                    "max_tokens": '$MAX_TOKENS',
+                    "temperature": '$TEMP'
                     }' | jq -r '.choices[].message.content' | sed '1,2d')
 
   connectionError "$response"
-	echo -e "\n${CHATGPT} ${GREEN}${response}${RESET}"
+  echo -e "\n${CHATGPT} ${GREEN}${response}${RESET}"
+  saveHistory "$user_input" "$response"
 }
+
+## Saves responses in a history file with timestamp
+## ~/.hal2023_history.txt
+## History file isn't deleted while uninstalling
+saveHistory() {
+  prompt=$1
+  reply=$2
+  date_time=$(date +"%d-%m-%y at %H:%M")
+  echo -e "\n$date_time\nUser: $prompt \nChatGPT- $reply" >> ~/.hal2023_history.txt
+}
+
+## Check for a History File
+if [ ! -f ~/.hal2023_history.txt ]; then
+  touch ~/.hal2023_history.txt
+fi
 
 while true; do
   echo -e "\n\033[2mType exit, quit or :q to exit.\033[0m"
@@ -73,15 +90,15 @@ while true; do
   read -r input
 
   if [ "$input" == "exit" ]; then
-      echo -e "\nSuccessfuly quit HAL2023\n"
-      exit 0
+    echo -e "\nSuccessfuly quit HAL2023\n"
+    exit 0
   elif [ "$input" == "quit" ]; then
-      echo -e "\nSuccessfuly quit HAL2023\n"
-      exit 0
+    echo -e "\nSuccessfuly quit HAL2023\n"
+    exit 0
   elif [ "$input" == ":q" ]; then
-      echo -e "\nSuccessfuly quit HAL2023\n"
-      exit 0
+    echo -e "\nSuccessfuly quit HAL2023\n"
+    exit 0
   else
-    chatResponse
+    chatResponse "$input"
   fi
 done

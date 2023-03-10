@@ -40,6 +40,6 @@ uninstall:
 .PHONY: about
 about:
 	@echo "Name:    HAL2023 CLI"
-	@echo "Version: v1.3.1"
+	@echo "Version: v1.4.1"
 	@echo "Source:  https://www.github.com/brutuski/hal2023-cli"
 	@echo "         A simple CLI to interract with OpenAI's ChatGPT"

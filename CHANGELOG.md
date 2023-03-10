@@ -27,6 +27,10 @@ _07/03/2023_
 - Changed default model to `gpt-3.5-turbo`
 - Moved unfinished _history_ feature to `alpha branch`.
 
+#### v1.4.1
+_10/03/2023_
+- Added a history feature.
+
 #### Versioning System
 HAL 2023 CLI uses [Semantic versioning 2.0.0](https://semver.org)
 

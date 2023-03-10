@@ -8,6 +8,7 @@
 
 ### Index
 
+-   [Introduction](#introduction)
 -   [Getting Started](#getting-started)
 -   [Screenshots & Demo](#screenshots)
 -   [Requirements](#requirements)
@@ -19,8 +20,11 @@
 -   [Issues](#issues)
 -   [License](#license)
 
+#### Introduction
+Inspired by the infamous `HAL9000` from the cult classic `2001: A Space Odyssey`, this simple CLI enables you to interact with [OpenAI](https://openai.com)'s [ChatGPT](https://openai.com/blog/chatgpt/).
+
 #### Getting Started
-You would need an API key from [OpenAI](https://openai.com) to interface with [ChatGPT](https://openai.com/blog/chatgpt/).
+You would need an API key from OpenAI to use this CLI.
 Open [this link](https://beta.openai.com/account/api-keys) and generate an API key for yourself.
 Upon installation, this CLI stores your personal API key in a file called `.chat-api-key` in your `Home` directory.
 
@@ -58,6 +62,7 @@ This CLI is using the `gpt-3.5-turbo` model. You can read more about it [here](h
     make about
     make help
     ```
+- A history feature has been added as of `v1.4.1`. The history file is created and maintained at `~/.hal2023_history.txt`.
 
 #### Uninstall
 ```sh
@@ -66,7 +71,7 @@ make uninstall
 
 #### Changelog
 ```vim
-v 1.3.1
+v 1.4.1
 ```
 
 Changes can be tracked in the [CHANGELOG](https://github.com/Brutuski/hal2023-cli/blob/main/CHANGELOG.md)
