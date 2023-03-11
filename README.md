@@ -31,8 +31,11 @@ You would need an API key from OpenAI to use this CLI.
 Open [this link](https://beta.openai.com/account/api-keys) and generate an API key for yourself.
 Upon installation, this CLI stores your personal API key in a file called `.chat-api-key` in your `Home` directory.
 
-This CLI is using the `gpt-3.5-turbo` model. You can read more about
+This CLI is using the `gpt-3.5-turbo` model by default. You can read more about
 it [here](https://platform.openai.com/docs/guides/chat).
+
+To interact with `text-davinci-003` model, simply start your query with `-davinci` followed by a space and the rest of
+your query after that.
 
 #### Screenshots
 
@@ -62,7 +65,15 @@ it [here](https://platform.openai.com/docs/guides/chat).
 #### Usage
 
 - Run the command `hal2023`
+
+
 - To exit simply type `exit` or `quit` or `:q`
+
+
+- Default model is `gpt-3.5-turbo`. If you would like to interact with the `text-davinci-003` model simply start your
+  query with `-davinci`
+
+
 - More options:
   ```sh
   make check
@@ -84,9 +95,8 @@ manually if required.
 #### Changelog
 
 ```vim
-v 1.4.1
+v 1.5.1
 ```
-
 Changes can be tracked in the [CHANGELOG](https://github.com/Brutuski/hal2023-cli/blob/main/CHANGELOG.md)
 
 #### Issues

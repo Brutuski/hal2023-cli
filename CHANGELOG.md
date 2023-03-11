@@ -30,6 +30,12 @@ _07/03/2023_
 #### v1.4.1
 _10/03/2023_
 - Added a history feature.
+  - History file is located at `~/.hal2023_history.txt`
+
+#### v1.5.1
+_11/03/2023_
+- Added option for interacting with `text-davinci-003`
+  - Pass arguments with `-davinci ` followed by the query.
 
 #### Versioning System
 HAL 2023 CLI uses [Semantic versioning 2.0.0](https://semver.org)
