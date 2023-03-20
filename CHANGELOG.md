@@ -37,6 +37,11 @@ _11/03/2023_
 - Added option for interacting with `text-davinci-003`
   - Pass arguments with `-davinci ` followed by the query.
 
+#### v1.6.1
+_20/03/2023_
+- Added image generation.
+  - Pass arguments with `-image ` followed by the image generation prompt.
+
 #### Versioning System
 HAL 2023 CLI uses [Semantic versioning 2.0.0](https://semver.org)
 
