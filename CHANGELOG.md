@@ -42,6 +42,10 @@ _20/03/2023_
 - Added image generation.
   - Pass arguments with `-image ` followed by the image generation prompt.
 
+#### v1.6.2
+_22/03/2023_
+- Better formatting, following this [source](https://google.github.io/styleguide/shellguide.html#s7-naming-conventions).
+
 #### Versioning System
 HAL 2023 CLI uses [Semantic versioning 2.0.0](https://semver.org)
 

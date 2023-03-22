@@ -14,7 +14,7 @@ RESET='\033[0m'
 ## Formatting ##
 
 # Logo
-_ASCII=$(
+readonly ASCII=$(
   cat <<EOF
 ██╗  ██╗ █████╗ ██╗         ██████╗  ██████╗ ██████╗ ██████╗
 ██║  ██║██╔══██╗██║         ╚════██╗██╔═████╗╚════██╗╚════██╗
@@ -26,25 +26,30 @@ EOF
 )
 
 # Labels
-CHATGPT="${CYAN}\033[1mChatGPT\033[0m${RESET} \033[2m｢Turbo Model｣\033[0m:"
-CHATGPT_DAVINCI="${CYAN}\033[1mChatGPT\033[0m${RESET} \033[2m｢Davinci Model｣\033[0m:"
-CHATGPT_IMAGE="${CYAN}\033[1mChatGPT\033[0m${RESET} \033[2m｢Image｣\033[0m:"
+readonly CHATGPT="${CYAN}\033[1mChatGPT\033[0m${RESET} \033[2m｢Turbo Model｣\033[0m:"
+readonly CHATGPT_DAVINCI="${CYAN}\033[1mChatGPT\033[0m${RESET} \033[2m｢Davinci Model｣\033[0m:"
+readonly CHATGPT_IMAGE="${CYAN}\033[1mChatGPT\033[0m${RESET} \033[2m｢Image｣\033[0m:"
 
-## API Key ##
-api_key=$(<~/.chat-gpt-api)
+# API Key ##
+readonly API_KEY=$(<~/.chat-gpt-api)
 
-## Default Parameters
+# Default Parameters
 TEMP=${TEMP:-0.8}
 MAX_TOKENS=${MAX_TOKENS:-2048}
 RESOLUTION=${RESOLUTION:-1024x1024}
 
+# Date Time for the history file
+readonly DATE_TIME=$(date +"%d-%m-%y at %H:%M")
+
+# Prompts
 #ROLE_SYSTEM="You are ChatGPT. Please answer each query in a precise and short manner. Don't show more than 10 items in a list."
 
+# Logo printed when the script is executed
 printf "\033c"
-echo -e "\n${YELLOW}${_ASCII}${RESET}\n"
+echo -e "\n${YELLOW}${ASCII}${RESET}\n"
 
-## Checks for ChatGPT Error Message ##
-connectionError() {
+# Checks for ChatGPT Error Message ##
+function connection_error() {
   if echo "$1" | jq -e '' >/dev/null; then
     echo -e "\n${RED}Error:${RESET} Your message failed to reach Open AI's API."
     echo -e "Please check your API key to make sure it is correct.\n"
@@ -52,82 +57,84 @@ connectionError() {
   fi
 }
 
-## Parses response from chatGPT using the gpt-3.5-turbo model##
-chatResponse() {
-  user_input=$1
-  model_turbo="gpt-3.5-turbo"
+# Parses response from chatGPT using the gpt-3.5-turbo model##
+function chat_response() {
+  local input=$1
+  local model="gpt-3.5-turbo"
+  local response
   response=$(curl -sS https://api.openai.com/v1/chat/completions \
-    -H "Authorization: Bearer $api_key" \
+    -H "Authorization: Bearer $API_KEY" \
     -H "Content-Type: application/json" \
     -d '{
-                    "model": "'"$model_turbo"'",
+                    "model": "'"$model"'",
                     "messages": [
-                                  {"role": "user", "content": "'"$user_input"'"}
+                                  {"role": "user", "content": "'"$input"'"}
                                 ],
                     "max_tokens": '$MAX_TOKENS',
                     "temperature": '$TEMP'
                     }' | jq -r '.choices[].message.content' | sed '1,2d')
 
-  connectionError "$response"
+  connection_error "$response"
   echo -e "\n${CHATGPT} ${GREEN}${response}${RESET}"
-  saveHistory "$user_input" "$response" "$model_turbo"
+  save_history "$input" "$response" "$model"
 }
 
-## Parses response from chatGPT using the text-davinci-003 model##
-chatResponseDavinci() {
-  user_input=$1
-  model_davinci="text-davinci-003"
+# Parses response from chatGPT using the text-davinci-003 model##
+function chat_response_davinci() {
+  local input=$1
+  local model="text-davinci-003"
+  local response
   response=$(curl -sS https://api.openai.com/v1/completions \
-    		-H 'Content-Type: application/json' \
-    		-H "Authorization: Bearer $api_key" \
-    		-d '{
-    			"model": "'"$model_davinci"'",
-    			"prompt": "'"$user_input"'",
+    -H 'Content-Type: application/json' \
+    -H "Authorization: Bearer $API_KEY" \
+    -d '{
+    			"model": "'"$model"'",
+    			"prompt": "'"$input"'",
     			"max_tokens": '$MAX_TOKENS',
     			"temperature": '$TEMP'
   	}' | jq -r '.choices[].text' | sed '1,2d')
 
-  connectionError "$response"
+  connection_error "$response"
   echo -e "\n${CHATGPT_DAVINCI} ${GREEN}${response}${RESET}"
-  saveHistory "$user_input" "$response" "$model_davinci"
+  save_history "$input" "$response" "$model"
 }
 
-## Generates image
-imageGeneration() {
-  user_input=$1
-  model_image="DALL.E"
-  history_text="URL was successfully generated."
-  image_response=$(curl -sS https://api.openai.com/v1/images/generations \
+# Generates image
+function image_generation() {
+  local input=$1
+  local success_message="URL was successfully generated."
+  local model="DALL.E"
+  local response
+  response=$(curl -sS https://api.openai.com/v1/images/generations \
     -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer $api_key" \
+    -H "Authorization: Bearer $API_KEY" \
     -d '{
-          "prompt": "'"$user_input"'",
+          "prompt": "'"$input"'",
           "n": 1,
           "size": "'"$RESOLUTION"'"
     }')
 
-  image_url=$(echo $image_response | jq -r '.data[0].url')
+  image_url=$(echo $response | jq -r '.data[0].url')
   if [ "$image_url" == null ]; then
-    connectionError
+    connection_error
   else
     echo -e "\n${CHATGPT_IMAGE} ${GREEN}Image was successfully generated${RESET}"
     echo -e "Link: $image_url"
-    saveHistory "$user_input" "$history_text" "$model_image"
+    save_history "$input" "$success_message" "$model"
   fi
 }
 
-## Saves responses in a history file with timestamp
-## ~/.hal2023_history.txt
-## History file isn't deleted while uninstalling
-saveHistory() {
-  prompt=$1
-  reply=$2
-  model=$3
-  date_time=$(date +"%d-%m-%y at %H:%M")
-  echo -e "\n-----------------\n$date_time\n\nUser: $prompt \n\nChatGPT [$model] - $reply" >>~/.hal2023_history.txt
+# Saves responses in a history file with timestamp
+# ~/.hal2023_history.txt
+# History file isn't deleted while uninstalling
+function save_history() {
+  local prompt=$1
+  local reply=$2
+  local model=$3
+  echo -e "\n-----------------\n$DATE_TIME\n\nUser: $prompt \n\nChatGPT [$model] - $reply" >>~/.hal2023_history.txt
 }
 
-## Check for a History File
+# Check for a History File
 if [ ! -f ~/.hal2023_history.txt ]; then
   touch ~/.hal2023_history.txt
 fi
@@ -142,10 +149,10 @@ while true; do
     exit 0
   elif [[ "$input" == "-davinci"* ]]; then
     davinciQuery=$(echo "$input" | cut -c 9-)
-    chatResponseDavinci "$davinciQuery"
+    chat_response_davinci "$davinciQuery"
   elif [[ "$input" == "-image"* ]]; then
-    imageGeneration "${input#*-image }"
+    image_generation "${input#*-image }"
   else
-    chatResponse "$input"
+    chat_response "$input"
   fi
 done
