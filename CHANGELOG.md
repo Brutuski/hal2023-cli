@@ -46,6 +46,10 @@ _20/03/2023_
 _22/03/2023_
 - Better formatting, following this [source](https://google.github.io/styleguide/shellguide.html#s7-naming-conventions).
 
+#### v1.6.3
+_23/03/2023_
+- Image URL shortener added. URL shortened using [tny.im API](https://tny.im/aboutapi.php)
+
 #### Versioning System
 HAL 2023 CLI uses [Semantic versioning 2.0.0](https://semver.org)
 

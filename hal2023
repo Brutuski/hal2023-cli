@@ -30,7 +30,7 @@ readonly CHATGPT="${CYAN}\033[1mChatGPT\033[0m${RESET} \033[2m｢Turbo Model｣\
 readonly CHATGPT_DAVINCI="${CYAN}\033[1mChatGPT\033[0m${RESET} \033[2m｢Davinci Model｣\033[0m:"
 readonly CHATGPT_IMAGE="${CYAN}\033[1mChatGPT\033[0m${RESET} \033[2m｢Image｣\033[0m:"
 
-# API Key ##
+# API Key
 readonly API_KEY=$(<~/.chat-gpt-api)
 
 # Default Parameters
@@ -57,7 +57,7 @@ function connection_error() {
   fi
 }
 
-# Parses response from chatGPT using the gpt-3.5-turbo model##
+# Parses response from chatGPT using the gpt-3.5-turbo model
 function chat_response() {
   local input=$1
   local model="gpt-3.5-turbo"
@@ -79,7 +79,7 @@ function chat_response() {
   save_history "$input" "$response" "$model"
 }
 
-# Parses response from chatGPT using the text-davinci-003 model##
+# Parses response from chatGPT using the text-davinci-003 model
 function chat_response_davinci() {
   local input=$1
   local model="text-davinci-003"
@@ -100,6 +100,7 @@ function chat_response_davinci() {
 }
 
 # Generates image
+# Shortens the URL using tny.im API
 function image_generation() {
   local input=$1
   local success_message="URL was successfully generated."
@@ -113,13 +114,15 @@ function image_generation() {
           "n": 1,
           "size": "'"$RESOLUTION"'"
     }')
-
+  local image_url
   image_url=$(echo $response | jq -r '.data[0].url')
+  local url_short
+  url_short=$(wget -qO- -U Mozilla http://tinyurl.com/api-create.php?url=$image_url)
   if [ "$image_url" == null ]; then
     connection_error
   else
     echo -e "\n${CHATGPT_IMAGE} ${GREEN}Image was successfully generated${RESET}"
-    echo -e "Link: $image_url"
+    echo -e "Link: $url_short"
     save_history "$input" "$success_message" "$model"
   fi
 }

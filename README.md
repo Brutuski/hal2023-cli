@@ -46,6 +46,7 @@ your query after that.
 
 - [curl](https://curl.se/)
 - [jq](https://stedolan.github.io/jq/)
+- [wget](https://www.gnu.org/software/wget/)
 
 #### Installation
 
@@ -73,7 +74,8 @@ your query after that.
 - Default model is `gpt-3.5-turbo`. If you would like to interact with the `text-davinci-003` model simply start your
   query with `-davinci`
 
-- Image generation has been added. Simple start your input with `-image ` followed by the image prompt.
+- Image generation has been added. Simple start your input with `-image ` followed by the image prompt. Generated image
+  URL is shortened using the [tny.im API](https://tny.im/aboutapi.php) and displayed.
 
 
 - More options:
@@ -97,7 +99,7 @@ manually if required.
 #### Changelog
 
 ```vim
-v 1.6.2
+v 1.6.3
 ```
 
 Changes can be tracked in the [CHANGELOG](https://github.com/Brutuski/hal2023-cli/blob/main/CHANGELOG.md)
