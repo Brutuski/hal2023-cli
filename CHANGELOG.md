@@ -1,5 +1,5 @@
 <h2 align="center"> Changelog</h2>
-<p align="center"><img src="icon.png" width="150" height="150"><p>
+<p align="center"><img src="./image-assets/icon.png" width="150" height="150"><p>
 <p align="center">
         <img alt="Script" src="https://img.shields.io/badge/Shell_Script-121011?style=for-the-badge&logo=gnu-bash&logoColor=white">
         <img alt="License" src="https://img.shields.io/badge/MIT-LICENSE-1976D2?style=for-the-badge">

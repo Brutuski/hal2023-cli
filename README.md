@@ -1,6 +1,6 @@
 <h2 align="center">HAL 2023</h2>
 <h4 align="center">A simple script to chat with OpenAI's ChatGPT</h4>
-<p align="center"><img src="icon.png" width="150" height="150"><p>
+<p align="center"><img src="./image-assets/icon.png" width="150" height="150"><p>
 <p align="center">
         <img alt="Script" src="https://img.shields.io/badge/Shell_Script-121011?style=for-the-badge&logo=gnu-bash&logoColor=white">
         <img alt="License" src="https://img.shields.io/badge/MIT-LICENSE-1976D2?style=for-the-badge">
@@ -15,7 +15,7 @@
 - [Installation](#installation)
 - [Usage](#usage)
 - [Uninstall](#uninstall)
-- [Options](#options)
+- [Project Structure](#project-structure)
 - [Changelog](#changelog)
 - [Issues](#issues)
 - [License](#license)
@@ -39,9 +39,9 @@ your query after that.
 
 #### Screenshots
 
-<p align="center"><img src="./Screenshots/screenshot-1.png"><p>
-<p align="center"><img src="./Screenshots/screenshot-2.png"><p>
-<p align="center"><img src="./Screenshots/screenshot-3.png"><p>
+<p align="center"><img src="./image-assets/screenshot-1.png"><p>
+<p align="center"><img src="./image-assets/screenshot-2.png"><p>
+<p align="center"><img src="./image-assets/screenshot-3.png"><p>
 
 #### Requirements
 
@@ -96,6 +96,19 @@ make uninstall
 
 Please note: The history file (located at ~/.hal2023_history.txt) is not removed while uninstalling. You can delete it
 manually if required.
+
+#### Project Structure
+
+```
+├── hal2023                  # Main script
+├── README.md                # Documentation file
+├── CHANGELOG.md             # Changelog file
+├── Makefile                 # To install, uninstall, check requirements and a short about section
+├── check_requirements.sh    # Script that checks for requirements
+├── image-assets             # Directory for all documentation related image assets
+├── .gitignore               # File to primarily exclude .idea and .DS_Store
+└── LICENSE                  # MIT License file
+```
 
 #### Changelog
 
