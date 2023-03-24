@@ -41,6 +41,7 @@ your query after that.
 
 <p align="center"><img src="./Screenshots/screenshot-1.png"><p>
 <p align="center"><img src="./Screenshots/screenshot-2.png"><p>
+<p align="center"><img src="./Screenshots/screenshot-3.png"><p>
 
 #### Requirements
 
