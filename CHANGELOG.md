@@ -78,6 +78,14 @@ _24/03/2023_
     - `check_requirements.sh` has been updated to specifically point out which of the required tools is
       missing.
 
+#### v1.7.4
+
+_24/03/2023_
+
+- Added 'Used Tokens' feature. Only available for text based queries
+    - Tokens used are also reflected in the history file.
+- Minor reformatting for history file to make it visually easier to read.
+
 #### Versioning System
 HAL 2023 CLI uses [Semantic versioning 2.0.0](https://semver.org)
 
