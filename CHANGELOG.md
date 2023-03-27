@@ -80,11 +80,18 @@ _24/03/2023_
 
 #### v1.7.4
 
-_24/03/2023_
+_27/03/2023_
 
 - Added 'Used Tokens' feature. Only available for text based queries
     - Tokens used are also reflected in the history file.
 - Minor reformatting for history file to make it visually easier to read.
+
+#### v1.7.4
+
+_27/03/2023_
+
+- Fixed `connection_error` function. It is no longer causing an error message by default.
+- In case an error occurs, the specific error message from OpenAI is now displayed.
 
 #### Versioning System
 HAL 2023 CLI uses [Semantic versioning 2.0.0](https://semver.org)

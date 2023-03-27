@@ -113,7 +113,7 @@ manually if required.
 #### Changelog
 
 ```vim
-v 1.7.4
+v 1.7.5
 ```
 
 Changes can be tracked in the [CHANGELOG](https://github.com/Brutuski/hal2023-cli/blob/main/CHANGELOG.md)

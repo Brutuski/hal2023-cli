@@ -50,9 +50,17 @@ echo -e "\n${YELLOW}${ASCII}${RESET}\n"
 
 # Checks for ChatGPT Error Message ##
 function connection_error() {
-  if echo "$1" | jq -e '' >/dev/null; then
+  local response=$1
+  local error
+  local error_message
+
+  error=$(echo "$response" | jq -r '.error')
+  error_message=$(echo "$response" | jq -r '.error.message')
+
+  if [ "$error" != "null" ]; then
     echo -e "\n${RED}Error:${RESET} Your message failed to reach Open AI's API."
-    echo -e "Please check your API key to make sure it is correct.\n"
+    echo -e "${RED}Error Message:${RESET}"
+    echo -e "${YELLOW}${error_message}${RESET}\n"
     exit 1
   fi
 }
@@ -80,7 +88,7 @@ function chat_response() {
   response_parsed=$(echo "$response" | jq -r '.choices[].message.content')
   tokens_used=$(echo "$response" | jq -r '.usage.total_tokens')
 
-#  connection_error "$response"
+  connection_error "$response"
   echo -e "\n${CHATGPT} \033[2m${tokens_used}｣\033[0m:\n${GREEN}${response_parsed}${RESET}"
   save_history "$input" "$response_parsed" "$model" "$tokens_used"
 }
@@ -106,7 +114,7 @@ function chat_response_davinci() {
   response_parsed=$(echo "$response" | jq -r '.choices[].text' | sed '1,2d')
   tokens_used=$(echo "$response" | jq -r '.usage.total_tokens')
 
-#  connection_error "$response"
+  connection_error "$response"
   echo -e "\n${CHATGPT_DAVINCI} \033[2m${tokens_used}｣\033[0m:\n${GREEN}${response_parsed}${RESET}"
   save_history "$input" "$response_parsed" "$model" "$tokens_used"
 }
@@ -118,6 +126,7 @@ function image_generation() {
   local success_message="URL was successfully generated."
   local model="DALL.E"
   local response
+
   response=$(curl -sS https://api.openai.com/v1/images/generations \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $API_KEY" \
@@ -126,12 +135,14 @@ function image_generation() {
           "n": 1,
           "size": "'"$RESOLUTION"'"
     }')
+
   local image_url
   image_url=$(echo $response | jq -r '.data[0].url')
   local url_short
   url_short=$(wget -qO- -U Mozilla http://tinyurl.com/api-create.php?url=$image_url)
+
   if [ "$image_url" == null ]; then
-    connection_error
+    connection_error "$response"
   else
     echo -e "\n${CHATGPT_IMAGE} ${GREEN}Image was successfully generated${RESET}"
     echo -e "Link: $url_short"
