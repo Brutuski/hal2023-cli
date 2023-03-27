@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-## COLORS ##
+# Colors
+# Used to decorate the replies, queries, error messages etc. used in the script
 BLACK='\033[0;30m'
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -11,9 +12,8 @@ CYAN='\033[0;36m'
 WHITE='\033[0;37m'
 RESET='\033[0m'
 
-## Formatting ##
-
 # Logo
+# Used only for decorative purposes
 readonly ASCII=$(
   cat <<EOF
 ██╗  ██╗ █████╗ ██╗         ██████╗  ██████╗ ██████╗ ██████╗
@@ -26,11 +26,21 @@ EOF
 )
 
 # Labels
+# Decorative line, shown before the answer. It is shown in the following format:
+#<NEWLINE>
+# ChatGPT ｢<Model Name> | Tokens Used - <Total Tokens Used>｣ (For text based queries)
+# ChatGPT ｢Image｣: <Success Message> (For image generation)
+# "ChatGPT" shown in bold and cyan. Model Name and Tokens Used are shown in lighter greyed out text.
+# CHATGPT - Used for gpt-3.5-turbo model
+# CHATGPT_DAVINCI - Used for text-davinci-003 model
+# CHATGPT_IMAGE - Used for image generation
 readonly CHATGPT="${CYAN}\033[1mChatGPT\033[0m${RESET} \033[2m｢Turbo Model | Tokens Used -\033[0m"
 readonly CHATGPT_DAVINCI="${CYAN}\033[1mChatGPT\033[0m${RESET} \033[2m｢Davinci Model | Tokens Used -\033[0m:"
 readonly CHATGPT_IMAGE="${CYAN}\033[1mChatGPT\033[0m${RESET} \033[2m｢Image｣\033[0m:"
 
 # API Key
+# Located at: ~/.chat-gpt-api
+# The key is stored unencrypted, in plain text with no spaces etc.
 readonly API_KEY=$(<~/.chat-gpt-api)
 
 # Default Parameters
@@ -38,17 +48,18 @@ TEMP=${TEMP:-0.8}
 MAX_TOKENS=${MAX_TOKENS:-2048}
 RESOLUTION=${RESOLUTION:-1024x1024}
 
-# Date Time for the history file
+# Date & Time
+# Used in the history file
 readonly DATE_TIME=$(date +"%d-%m-%y at %H:%M")
-
-# Prompts
-#ROLE_SYSTEM="You are ChatGPT. Please answer each query in a precise and short manner. Don't show more than 10 items in a list."
 
 # Logo printed when the script is executed
 printf "\033c"
 echo -e "\n${YELLOW}${ASCII}${RESET}\n"
 
-# Checks for ChatGPT Error Message ##
+# Checks for ChatGPT Error Message
+# response: Response from curl, without jq
+# error: To check if response has .error in JSON
+# error_message: Specific error message form OpenAI extracted
 function connection_error() {
   local response=$1
   local error
@@ -66,6 +77,11 @@ function connection_error() {
 }
 
 # Parses response from chatGPT using the gpt-3.5-turbo model
+# input: User input
+# model: ChatGPT Model to be used in the curl request
+# response: Response from curl, without jq
+# response_parsed: 'response' parsed for message from ChatGPT
+# tokens_used: `response` parsed to extract the total number of tokens used for the query
 function chat_response() {
   local input=$1
   local model="gpt-3.5-turbo"
@@ -94,6 +110,11 @@ function chat_response() {
 }
 
 # Parses response from chatGPT using the text-davinci-003 model
+# input: User input
+# model: ChatGPT Model to be used in the curl request
+# response: Response from curl, without jq
+# response_parsed: 'response' parsed for message from ChatGPT
+# tokens_used: `response` parsed to extract the total number of tokens used for the query
 function chat_response_davinci() {
   local input=$1
   local model="text-davinci-003"
@@ -120,7 +141,12 @@ function chat_response_davinci() {
 }
 
 # Generates image
-# Shortens the URL using tny.im API
+# input: User input
+# success_message: String to be displayed along with the URL
+# model: ChatGPT Model to be used in the curl request
+# response: Response from curl, without jq
+# image_url: 'response' parsed for the image URL
+# url_short: Shortens `image_url` using tny.im API
 function image_generation() {
   local input=$1
   local success_message="URL was successfully generated."
@@ -151,21 +177,42 @@ function image_generation() {
 }
 
 # Saves responses in a history file with timestamp
-# ~/.hal2023_history.txt
+# Located at: ~/.hal2023_history.txt
 # History file isn't deleted while uninstalling
+# prompt: User input
+# reply: Parsed reply from ChatGPT to the user input
+# model: Model used for the query
+# tokens_used: Tokens used for the text based query. Image generation does not display the total number of tokens used
 function save_history() {
   local prompt=$1
   local reply=$2
   local model=$3
   local tokens_used=$4
+
+  # For each individual query, the above variables are stored in the following format:
+  # <NEWLINE>
+  # +++++++++++++++++ (used for decorative purposes)
+  # <NEWLINE>
+  # <NEWLINE>
+  # dd-mm-yy at HH:MM
+  # User: <User query>
+  # <NEWLINE>
+  # ChatGPT [<Model>] [Tokens Used - <Tokens>] (For image generation tokens used is displayed as NA)
+  # <NEWLINE>
+  # <ChatGPT Reply> (For image generation "URL was successfully generated" is displayed"
   echo -e "\n+++++++++++++++++\n\n$DATE_TIME\n\nUser: $prompt \n\nChatGPT [$model] [Tokens Used - $tokens_used]\n$reply" >>~/.hal2023_history.txt
 }
 
-# Check for a History File
+# Checks for a History File during script run
+# If History file is not found, it is created
 if [ ! -f ~/.hal2023_history.txt ]; then
   touch ~/.hal2023_history.txt
 fi
 
+# Endless `while` loop that runs until the user types in one of the exit keywords
+# By default `gpt-3.5-turbo` model is used to reply to queries
+# "-davinci" keyword before a prompt points the query to the `text-davinci-003` model via the chat_response_davinci function
+# "-image" keyword before a prompt points the query to the `DALL.E` model for image generation via the image_generation function
 while true; do
   echo -e "\n\033[2mType exit, quit or :q to exit.\033[0m"
   echo -e "${WHITE}Write a message...${RESET}"

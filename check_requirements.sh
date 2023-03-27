@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Checks to see if the required tools mentioned in the array are installed on the system
+# Currently only curl, jq and wget are required for HAL 2023
 # Passes on the names of the missing tools to the main() function
 function check_requirements() {
   local requirements=("curl" "jq" "wget")
@@ -29,5 +30,5 @@ function main() {
   fi
 }
 
-# Kicks off the script
+# Kicks off this script
 check_requirements

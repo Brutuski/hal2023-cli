@@ -86,12 +86,18 @@ _27/03/2023_
     - Tokens used are also reflected in the history file.
 - Minor reformatting for history file to make it visually easier to read.
 
-#### v1.7.4
+#### v1.7.5
 
 _27/03/2023_
 
 - Fixed `connection_error` function. It is no longer causing an error message by default.
 - In case an error occurs, the specific error message from OpenAI is now displayed.
+
+#### v1.7.6
+
+_27/03/2023_
+
+- Added comprehensive comments to the script
 
 #### Versioning System
 HAL 2023 CLI uses [Semantic versioning 2.0.0](https://semver.org)
