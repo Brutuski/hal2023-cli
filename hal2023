@@ -37,6 +37,7 @@ EOF
 readonly CHATGPT="${CYAN}\033[1mChatGPT\033[0m${RESET} \033[2m｢Turbo Model | Tokens Used -\033[0m"
 readonly CHATGPT_DAVINCI="${CYAN}\033[1mChatGPT\033[0m${RESET} \033[2m｢Davinci Model | Tokens Used -\033[0m:"
 readonly CHATGPT_IMAGE="${CYAN}\033[1mChatGPT\033[0m${RESET} \033[2m｢Image｣\033[0m:"
+readonly CHATGPT_GPT4="${CYAN}\033[1mChatGPT\033[0m${RESET} \033[2m｢GPT4 Model | Tokens Used -\033[0m:"
 
 # API Key
 # Located at: ~/.chat-gpt-api
@@ -176,6 +177,39 @@ function image_generation() {
   fi
 }
 
+# Parses response from chatGPT using the gpt-4 model
+# input: User input
+# model: ChatGPT Model to be used in the curl request
+# response: Response from curl, without jq
+# response_parsed: 'response' parsed for message from ChatGPT
+# tokens_used: `response` parsed to extract the total number of tokens used for the query
+function chat_response_gpt4() {
+  local input=$1
+  local model="gpt-4"
+  local response
+  local response_parsed
+  local tokens_used
+
+  response=$(curl -sS https://api.openai.com/v1/chat/completions \
+    -H "Authorization: Bearer $API_KEY" \
+    -H "Content-Type: application/json" \
+    -d '{
+          "model": "'"$model"'",
+          "messages": [
+                        {"role": "user", "content": "'"$input"'"}
+                      ],
+          "max_tokens": '$MAX_TOKENS',
+          "temperature": '$TEMP'
+          }')
+
+  response_parsed=$(echo "$response" | jq -r '.choices[].text' | sed '1,2d')
+  tokens_used=$(echo "$response" | jq -r '.usage.total_tokens')
+
+  connection_error "$response"
+  echo -e "\n${CHATGPT_GPT4} \033[2m${tokens_used}｣\033[0m:\n${GREEN}${response_parsed}${RESET}"
+  save_history "$input" "$response_parsed" "$model" "$tokens_used"
+}
+
 # Saves responses in a history file with timestamp
 # Located at: ~/.hal2023_history.txt
 # History file isn't deleted while uninstalling
@@ -226,6 +260,8 @@ while true; do
     chat_response_davinci "$davinciQuery"
   elif [[ "$input" == "-image"* ]]; then
     image_generation "${input#*-image }"
+  elif [[ "$input" == "-gpt4"* ]]; then
+    chat_response_gpt4 "${input#*-gpt4 }"
   else
     chat_response "$input"
   fi

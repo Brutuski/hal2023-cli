@@ -99,6 +99,13 @@ _27/03/2023_
 
 - Added comprehensive comments to the script
 
+#### v1.8.6
+
+_28/03/2023_
+
+- `gpt-4` Model added
+
+
 #### Versioning System
 HAL 2023 CLI uses [Semantic versioning 2.0.0](https://semver.org)
 

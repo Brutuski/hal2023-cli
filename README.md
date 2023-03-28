@@ -37,6 +37,8 @@ it [here](https://platform.openai.com/docs/guides/chat).
 To interact with `text-davinci-003` model, simply start your query with `-davinci` followed by a space and the rest of
 your query after that.
 
+`gpt-4` Model is also available. Start a prompt with `-gpt4` followed by the rest of the query.
+
 #### Screenshots
 
 <p align="center"><img src="./image-assets/screenshot-1.png"><p>
@@ -74,6 +76,8 @@ your query after that.
 
 - Default model is `gpt-3.5-turbo`. If you would like to interact with the `text-davinci-003` model simply start your
   query with `-davinci`
+
+- To interact with `gpt-4` model, start the prompt with `-gpt4` followed by the query.
 
 - Image generation has been added. Simple start your input with `-image ` followed by the image prompt. Generated image
   URL is shortened using the [tny.im API](https://tny.im/aboutapi.php) and displayed.
@@ -113,7 +117,7 @@ manually if required.
 #### Changelog
 
 ```vim
-v 1.7.6
+v 1.8.6
 ```
 
 Changes can be tracked in the [CHANGELOG](https://github.com/Brutuski/hal2023-cli/blob/main/CHANGELOG.md)
