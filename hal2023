@@ -249,11 +249,13 @@ fi
 # "-image" keyword before a prompt points the query to the `DALL.E` model for image generation via the image_generation function
 while true; do
   echo -e "\n\033[2mType exit, quit or :q to exit.\033[0m"
-  echo -e "${WHITE}Write a message...${RESET}"
-  read -r input
+  echo -e "${WHITE}Write a query...${RESET}"
+
+  # Reads the input in raw mode + readline mode
+  read -re input
 
   if [ "$input" == "exit" ] || [ "$input" == "quit" ] || [ "$input" == ":q" ]; then
-    echo -e "\nSuccessfuly quit HAL2023\n"
+    echo -e "\nSuccessfully quit HAL2023\n"
     exit 0
   elif [[ "$input" == "-davinci"* ]]; then
     davinciQuery=$(echo "$input" | cut -c 9-)

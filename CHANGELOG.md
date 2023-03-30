@@ -105,8 +105,16 @@ _28/03/2023_
 
 - `gpt-4` Model added
 
+#### v1.8.6
+
+_30/03/2023_
+
+- Readline input mode added. Allows the user to navigate the query they are typing using the arrow keys and correct it
+  as required
+- Minor formatting
 
 #### Versioning System
+
 HAL 2023 CLI uses [Semantic versioning 2.0.0](https://semver.org)
 
 #### License [MIT](https://github.com/Brutuski/hal2023-cli/blob/main/LICENSE)
