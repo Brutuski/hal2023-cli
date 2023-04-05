@@ -113,6 +113,17 @@ _30/03/2023_
   as required
 - Minor formatting
 
+#### v1.9.6
+
+_05/04/2023_
+
+- Added pre-defined prompts to make content generation easier. Prompts for the following have been added:
+
+  - Email `-email` or `--e`
+  - Articles `-article` or `--a`
+- Further comments added
+- Minor formatting
+  
 #### Versioning System
 
 HAL 2023 CLI uses [Semantic versioning 2.0.0](https://semver.org)

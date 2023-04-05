@@ -52,6 +52,8 @@ RESOLUTION=${RESOLUTION:-1024x1024}
 # Date & Time
 # Used in the history file
 readonly DATE_TIME=$(date +"%d-%m-%y at %H:%M")
+# Used for Prompts
+readonly DATE=$(date +"%d-%m-%Y")
 
 # Logo printed when the script is executed
 printf "\033c"
@@ -210,6 +212,138 @@ function chat_response_gpt4() {
   save_history "$input" "$response_parsed" "$model" "$tokens_used"
 }
 
+# Takes user input to set the tone and length for specific content generation
+# input: Takes user input regarding the specific content to be generated, email for example
+#        Based on the user input (email, article etc.) the generated information from this function is forwarded to the
+#        relevant function.
+# length: Length of the content to be generated
+# tone: Tone of the content to be generated
+# prompt_init: Initial prompt generated including today's date along with the length and tone (if entered by the user)
+function prompt_length_tone() {
+  local input=$1
+  local length
+  local tone
+  local prompt_init
+  local prompt_final
+
+  prompt_init="Today is ${DATE}."
+
+  echo -e "\nWhat length should the content be?"
+  echo -e "Press ${YELLOW}1${RESET} for short."
+  echo -e "Press ${YELLOW}2${RESET} for medium."
+  echo -e "Press ${YELLOW}3${RESET} for long."
+  echo -e "\nEnter any value if you would like to leave the length unspecified."
+
+  # Reads the input length in raw mode + readline mode
+  read -re length
+
+  if [ "$length" -eq 1 ]; then
+    length="short"
+  elif [ "$length" -eq 2 ]; then
+    length="medium"
+  elif [ "$length" -eq 3 ]; then
+    length="long"
+  else
+    length=""
+  fi
+
+  echo -e "\nWhat tone should the content have?"
+  echo -e "Enter ${YELLOW}1${RESET} for casual."
+  echo -e "Enter ${YELLOW}2${RESET} for funny."
+  echo -e "Enter ${YELLOW}3${RESET} for informational."
+  echo -e "Enter ${YELLOW}4${RESET} for professional."
+  echo -e "\nEnter any other value if you would like to leave the tone unspecified."
+
+  # Reads the input for tone in raw mode + readline mode
+  read -re tone
+
+  if [ "$tone" -eq 1 ]; then
+    tone="casual"
+  elif [ "$tone" -eq 2 ]; then
+    tone="funny"
+  elif [ "$tone" -eq 3 ]; then
+    tone="informational"
+  elif [ "$tone" -eq 4 ]; then
+    tone="professional"
+  else
+    tone=""
+  fi
+
+  if [[ -z "$length" && -z "$tone" ]]; then
+    prompt_final="$prompt_init"
+  elif [[ -n "$length" && -n "$tone" ]]; then
+    prompt_final="$prompt_init The length should be $length. The tone of the email should be $tone."
+  elif [ -n "$length" ]; then
+    prompt_final="$prompt_init The length should be $length."
+  elif [ -n "$tone" ]; then
+    prompt_final="$prompt_init The tone of the email should be $tone"
+  fi
+
+  if [ "$input" == "-email" ] || [ "$input" == "--e" ]; then
+    email_generation "$prompt_final"
+  elif [ "$input" == "-article" ] || [ "$input" == "--a" ]; then
+    article_generation "$prompt_final"
+  fi
+
+}
+
+# Prepares a prompt for email drafting and forwards it to gpt-3.5-turbo model
+# prompt_init: Sent from prompt_length_tone() function and includes the current date, length and tone for the query
+# prompt_info: Directs ChatGPT to generate email with the user query
+# input: User input of the actual query
+# final_query: Concatenates prompt_init and user input. This is sent to chat_response() function
+function email_generation() {
+  local prompt_init=$1
+  local prompt_info
+  local final_query
+
+  prompt_info="Draft an email. $prompt_init"
+
+  echo -e "\n${WHITE}Write a prompt for your email...${RESET}"
+  echo -e "${WHITE}Include any and all details you would like for the email to have.${RESET}\n"
+
+  # Reads the input in raw mode + readline mode
+  read -re input
+
+  # Tone and length (as selected by the user) along with the query input concatenated into "final_query"
+  final_query="$prompt_info $input"
+
+  echo -e "\n${PURPLE}Generating response for:${RESET}"
+  echo -e "${BLUE}$final_query${RESET}"
+
+  # "final_query" sent to gpt-3.5-turbo model
+  chat_response "$final_query"
+}
+
+# Prepares a prompt for article drafting and forwards it to gpt-3.5-turbo model
+# prompt_init: Sent from prompt_length_tone() function and includes the current date, length and tone for the query
+# prompt_info: Directs ChatGPT to generate email with the user query
+# input: User input of the actual query
+# final_query: Concatenates prompt_init and user input. This is sent to chat_response() function
+function article_generation() {
+  local prompt_init=$1
+  local prompt_info
+  local final_query
+
+  prompt_info="Draft an article as concisely as possible. $prompt_init"
+
+  echo -e "\n${WHITE}Write a prompt for your article...${RESET}"
+  echo -e "${WHITE}Include any and all details you would like for the article to have, for example${RESET}"
+  echo -e "${WHITE}intended platform, number of paragraphs, target audience and so on.${RESET}\n"
+
+  # Reads the input in raw mode + readline mode
+  read -re input
+
+  # Tone and length (as selected by the user) along with the query input concatenated into "final_query"
+  final_query="$prompt_info $input"
+
+  echo -e "\n${PURPLE}Generating response for:${RESET}"
+  echo -e "${BLUE}$final_query${RESET}"
+
+  # "final_query" sent to gpt-3.5-turbo model
+  chat_response "$final_query"
+}
+
 # Saves responses in a history file with timestamp
 # Located at: ~/.hal2023_history.txt
 # History file isn't deleted while uninstalling
@@ -245,8 +379,10 @@ fi
 
 # Endless `while` loop that runs until the user types in one of the exit keywords
 # By default `gpt-3.5-turbo` model is used to reply to queries
-# "-davinci" keyword before a prompt points the query to the `text-davinci-003` model via the chat_response_davinci function
-# "-image" keyword before a prompt points the query to the `DALL.E` model for image generation via the image_generation function
+# "-davinci" keyword before a prompt points the query to the `text-davinci-003` model via the chat_response_davinci() function
+# "-image" keyword before a prompt points the query to the `DALL.E` model for image generation via the image_generation() function
+# "-email" or "--e" keyword points the user to set the length, tone and then finally prompt input for email generation using the 'gpt-3.5-turbo'
+# "-article" or "--a" keyword points the user to set the length, tone and then finally prompt input for article generation using the 'gpt-3.5-turbo'
 while true; do
   echo -e "\n\033[2mType exit, quit or :q to exit.\033[0m"
   echo -e "${WHITE}Write a query...${RESET}"
@@ -257,13 +393,22 @@ while true; do
   if [ "$input" == "exit" ] || [ "$input" == "quit" ] || [ "$input" == ":q" ]; then
     echo -e "\nSuccessfully quit HAL2023\n"
     exit 0
+  # Input sent to text-davinci-003 model
   elif [[ "$input" == "-davinci"* ]]; then
     davinciQuery=$(echo "$input" | cut -c 9-)
     chat_response_davinci "$davinciQuery"
+  # Input sent to image_generation() function
   elif [[ "$input" == "-image"* ]]; then
     image_generation "${input#*-image }"
+  # Input sent to gpt-4 model
   elif [[ "$input" == "-gpt4"* ]]; then
     chat_response_gpt4 "${input#*-gpt4 }"
+  # Rerouted to prompt_length_tone() function and then subsequently to email_generation() function
+  elif [ "$input" == "-email" ] || [ "$input" == "--e" ]; then
+    prompt_length_tone "$input"
+  # Rerouted to prompt_length_tone() function and then subsequently to article_generation() function
+  elif [ "$input" == "-article" ] || [ "$input" == "--a" ]; then
+    prompt_length_tone "$input"
   else
     chat_response "$input"
   fi

@@ -82,6 +82,10 @@ your query after that.
 - Image generation has been added. Simple start your input with `-image ` followed by the image prompt. Generated image
   URL is shortened using the [tny.im API](https://tny.im/aboutapi.php) and displayed.
 
+- Type `-email` or `--e` and press enter for quick email generation process.
+
+- Type `-article` or `--a` and press enter for quick article generation process.
+
 
 - More options:
   ```sh
@@ -117,7 +121,7 @@ manually if required.
 #### Changelog
 
 ```vim
-v1.8.7
+v1.9.7
 ```
 
 Changes can be tracked in the [CHANGELOG](https://github.com/Brutuski/hal2023-cli/blob/main/CHANGELOG.md)
