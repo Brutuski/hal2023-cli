@@ -83,7 +83,7 @@ function connection_error() {
 # input: User input
 # model: ChatGPT Model to be used in the curl request
 # response: Response from curl, without jq
-# response_parsed: 'response' parsed for message from ChatGPT
+# response_parsed: 'response' parsed for message from ChatGPT with text folded to break lines at the max width of the terminal
 # tokens_used: `response` parsed to extract the total number of tokens used for the query
 function chat_response() {
   local input=$1
@@ -104,7 +104,7 @@ function chat_response() {
           "temperature": '$TEMP'
           }')
 
-  response_parsed=$(echo "$response" | jq -r '.choices[].message.content')
+  response_parsed=$(echo "$response" | jq -r '.choices[].message.content' | fold -s -w $COLUMNS)
   tokens_used=$(echo "$response" | jq -r '.usage.total_tokens')
 
   connection_error "$response"
@@ -116,7 +116,7 @@ function chat_response() {
 # input: User input
 # model: ChatGPT Model to be used in the curl request
 # response: Response from curl, without jq
-# response_parsed: 'response' parsed for message from ChatGPT
+# response_parsed: 'response' parsed for message from ChatGPT with text folded to break lines at the max width of the terminal
 # tokens_used: `response` parsed to extract the total number of tokens used for the query
 function chat_response_davinci() {
   local input=$1
@@ -135,7 +135,7 @@ function chat_response_davinci() {
     			"temperature": '$TEMP'
   	}')
 
-  response_parsed=$(echo "$response" | jq -r '.choices[].text' | sed '1,2d')
+  response_parsed=$(echo "$response" | jq -r '.choices[].text' | sed '1,2d' | fold -s -w $COLUMNS)
   tokens_used=$(echo "$response" | jq -r '.usage.total_tokens')
 
   connection_error "$response"
@@ -183,7 +183,7 @@ function image_generation() {
 # input: User input
 # model: ChatGPT Model to be used in the curl request
 # response: Response from curl, without jq
-# response_parsed: 'response' parsed for message from ChatGPT
+# response_parsed: 'response' parsed for message from ChatGPT with text folded to break lines at the max width of the terminal
 # tokens_used: `response` parsed to extract the total number of tokens used for the query
 function chat_response_gpt4() {
   local input=$1
@@ -204,7 +204,7 @@ function chat_response_gpt4() {
           "temperature": '$TEMP'
           }')
 
-  response_parsed=$(echo "$response" | jq -r '.choices[].text' | sed '1,2d')
+  response_parsed=$(echo "$response" | jq -r '.choices[].text' | sed '1,2d' | fold -s -w $COLUMNS)
   tokens_used=$(echo "$response" | jq -r '.usage.total_tokens')
 
   connection_error "$response"

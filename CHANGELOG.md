@@ -105,7 +105,7 @@ _28/03/2023_
 
 - `gpt-4` Model added
 
-#### v1.8.6
+#### v1.8.7
 
 _30/03/2023_
 
@@ -113,7 +113,7 @@ _30/03/2023_
   as required
 - Minor formatting
 
-#### v1.9.6
+#### v1.9.7
 
 _05/04/2023_
 
@@ -123,6 +123,12 @@ _05/04/2023_
   - Articles `-article` or `--a`
 - Further comments added
 - Minor formatting
+ 
+#### v1.9.8
+
+_06/04/2023_
+
+- Text folding added for ChatGPT responses. Text folds and line breaks appear according to the width of the terminal.
   
 #### Versioning System
 
