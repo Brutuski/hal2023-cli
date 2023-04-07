@@ -129,7 +129,15 @@ _05/04/2023_
 _06/04/2023_
 
 - Text folding added for ChatGPT responses. Text folds and line breaks appear according to the width of the terminal.
+
+#### v1.10.8
+
+_07/04/2023_
+
+- Added pre-defined prompt to generate single line shell commands.
   
+  - Start your query with `-cmd` 
+
 #### Versioning System
 
 HAL 2023 CLI uses [Semantic versioning 2.0.0](https://semver.org)

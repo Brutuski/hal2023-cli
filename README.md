@@ -86,6 +86,8 @@ your query after that.
 
 - Type `-article` or `--a` and press enter for quick article generation process.
 
+- Type `-cmd` followed by the query to generate single line shell commands ready to be executed in he terminal.
+
 
 - More options:
   ```sh
@@ -121,7 +123,7 @@ manually if required.
 #### Changelog
 
 ```vim
-v1.9.8
+v1.10.8
 ```
 
 Changes can be tracked in the [CHANGELOG](https://github.com/Brutuski/hal2023-cli/blob/main/CHANGELOG.md)

@@ -55,6 +55,9 @@ readonly DATE_TIME=$(date +"%d-%m-%y at %H:%M")
 # Used for Prompts
 readonly DATE=$(date +"%d-%m-%Y")
 
+# Pre-defined prompts
+readonly PROMPT_CMD="You are an AI assistant. You will generate a SINGLE LINE SHELL COMMAND based on user input. The command should be ready to be executed in the terminal. Show no explanation."
+
 # Logo printed when the script is executed
 printf "\033c"
 echo -e "\n${YELLOW}${ASCII}${RESET}\n"
@@ -209,6 +212,40 @@ function chat_response_gpt4() {
 
   connection_error "$response"
   echo -e "\n${CHATGPT_GPT4} \033[2m${tokens_used}｣\033[0m:\n${GREEN}${response_parsed}${RESET}"
+  save_history "$input" "$response_parsed" "$model" "$tokens_used"
+}
+
+# Sends pre-defined prompt and parses the single line shell command using the gpt-3.5-turbo Model
+# input: User input
+# model: ChatGPT Model to be used in the curl request
+# response: Response from curl, without jq. Role `system` includes the pre-defined prompt instructing ChatGPT to generate the command based on user input
+# response_parsed: 'response' parsed for message from ChatGPT with text folded to break lines at the max width of the terminal
+# tokens_used: `response` parsed to extract the total number of tokens used for the query
+function command_generation() {
+  local input=$1
+  local model="gpt-3.5-turbo"
+  local response
+  local response_parsed
+  local tokens_used
+
+  response=$(curl -sS https://api.openai.com/v1/chat/completions \
+    -H "Authorization: Bearer $API_KEY" \
+    -H "Content-Type: application/json" \
+    -d '{
+          "model": "'"$model"'",
+          "messages": [
+                        {"role": "system", "content": "'"$PROMPT_CMD"'"},
+                        {"role": "user", "content": "'"$input"'"}
+                      ],
+          "max_tokens": '$MAX_TOKENS',
+          "temperature": '$TEMP'
+          }')
+
+  response_parsed=$(echo "$response" | jq -r '.choices[].message.content' | fold -s -w $COLUMNS)
+  tokens_used=$(echo "$response" | jq -r '.usage.total_tokens')
+
+  connection_error "$response"
+  echo -e "\n${CHATGPT} \033[2m${tokens_used}｣\033[0m:\n${GREEN}${response_parsed}${RESET}"
   save_history "$input" "$response_parsed" "$model" "$tokens_used"
 }
 
@@ -409,6 +446,9 @@ while true; do
   # Rerouted to prompt_length_tone() function and then subsequently to article_generation() function
   elif [ "$input" == "-article" ] || [ "$input" == "--a" ]; then
     prompt_length_tone "$input"
+  # Input sent to command_generation() function and passes along with pre-defined prompt to generate a single line bash command
+  elif [[ "$input" == "-cmd"* ]]; then
+    command_generation "${input#*-cmd }"
   else
     chat_response "$input"
   fi
