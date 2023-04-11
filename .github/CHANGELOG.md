@@ -15,6 +15,7 @@ _11/04/2023_
     - CODE_OF_CONDUCT.md
 
 - Update README + Minor formatting.
+- ISSUES_TEMPLATE.md added after the fact, coz I goofed up  with `git add`
 
 #### v1.10.8
 

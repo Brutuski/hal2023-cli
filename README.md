@@ -125,11 +125,16 @@ manually if required.
 #### Documents
 
 [Pull Request Template](.github/PULL_REQUEST_TEMPLATE.md)
+
 Changes can be tracked in the [CHANGELOG](.github/CHANGELOG.md)
 
 #### Issues
 
-Please report any bugs or issues [here](https://github.com/Brutuski/hal2023-cli/issues).
+[Issues Template](.github/ISSUES_TEMPLATE.md). Please report any issues or feature requests [here](https://github.com/Brutuski/hal2023-cli/issues).
+
+[Contributing](CONTRIBUTING.md)
+
+[Code of Conduct](CODE_OF_CONDUCT.md)
 
 #### License [MIT](https://github.com/Brutuski/hal2023-cli/blob/main/LICENSE)
 
