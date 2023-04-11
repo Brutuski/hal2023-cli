@@ -4,6 +4,7 @@
 <p align="center">
         <img alt="Script" src="https://img.shields.io/badge/Shell_Script-121011?style=for-the-badge&logo=gnu-bash&logoColor=white">
         <img alt="License" src="https://img.shields.io/badge/MIT-LICENSE-1976D2?style=for-the-badge">
+        <img alt="License" src="https://img.shields.io/badge/v-1.10.9-D8DEE9?style=for-the-badge">
 </p>
 
 ### Index
@@ -16,9 +17,8 @@
 - [Usage](#usage)
 - [Uninstall](#uninstall)
 - [Project Structure](#project-structure)
-- [Changelog](#changelog)
+- [Documents](#documents)
 - [Issues](#issues)
-- [License](#license)
 
 #### Introduction
 
@@ -112,21 +112,20 @@ manually if required.
 ```
 ├── hal2023                  # Main script
 ├── README.md                # Documentation file
-├── CHANGELOG.md             # Changelog file
+├── CONTRIBUTING.md          # Contributing document
+├── CODE_OF_CONDUCT.md       # Code of Conduct document
 ├── Makefile                 # To install, uninstall, check requirements and a short about section
 ├── check_requirements.sh    # Script that checks for requirements
 ├── image-assets             # Directory for all documentation related image assets
 ├── .gitignore               # File to primarily exclude .idea and .DS_Store
+├── .github                  # Pull Request, Issues Templates and Changelog
 └── LICENSE                  # MIT License file
 ```
 
-#### Changelog
+#### Documents
 
-```vim
-v1.10.8
-```
-
-Changes can be tracked in the [CHANGELOG](https://github.com/Brutuski/hal2023-cli/blob/main/CHANGELOG.md)
+[Pull Request Template](.github/PULL_REQUEST_TEMPLATE.md)
+Changes can be tracked in the [CHANGELOG](.github/CHANGELOG.md)
 
 #### Issues
 
