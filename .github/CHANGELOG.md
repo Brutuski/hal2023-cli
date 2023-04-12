@@ -3,8 +3,16 @@
 <p align="center">
         <img alt="Script" src="https://img.shields.io/badge/Shell_Script-121011?style=for-the-badge&logo=gnu-bash&logoColor=white">
         <img alt="License" src="https://img.shields.io/badge/MIT-LICENSE-1976D2?style=for-the-badge">
-        <img alt="License" src="https://img.shields.io/badge/v-1.10.9-D8DEE9?style=for-the-badge">
+        <img alt="License" src="https://img.shields.io/badge/v-1.10.10-D8DEE9?style=for-the-badge">
 </p>
+
+#### v1.10.10
+
+_12/04/2023_
+- Added `glow` for better formatting.
+  - Optional requirement. If `glow` is found on a system, it is used to format OpenAI's response.
+- Update README + Minor formatting.
+- Updates `check_requirements.sh` to check for `glow`.
 
 #### v1.10.9
 

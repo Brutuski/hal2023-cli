@@ -4,7 +4,7 @@
 <p align="center">
         <img alt="Script" src="https://img.shields.io/badge/Shell_Script-121011?style=for-the-badge&logo=gnu-bash&logoColor=white">
         <img alt="License" src="https://img.shields.io/badge/MIT-LICENSE-1976D2?style=for-the-badge">
-        <img alt="License" src="https://img.shields.io/badge/v-1.10.9-D8DEE9?style=for-the-badge">
+        <img alt="License" src="https://img.shields.io/badge/v-1.10.10-D8DEE9?style=for-the-badge">
 </p>
 
 ### Index
@@ -17,8 +17,7 @@
 - [Usage](#usage)
 - [Uninstall](#uninstall)
 - [Project Structure](#project-structure)
-- [Documents](#documents)
-- [Issues](#issues)
+- [Documentation](#documentation)
 
 #### Introduction
 
@@ -50,6 +49,9 @@ your query after that.
 - [curl](https://curl.se/)
 - [jq](https://stedolan.github.io/jq/)
 - [wget](https://www.gnu.org/software/wget/)
+
+##### Optional 
+- [glow](https://github.com/charmbracelet/glow) helps with better output formatting.
 
 #### Installation
 
@@ -110,29 +112,28 @@ manually if required.
 #### Project Structure
 
 ```
-├── hal2023                  # Main script
-├── README.md                # Documentation file
-├── CONTRIBUTING.md          # Contributing document
-├── CODE_OF_CONDUCT.md       # Code of Conduct document
-├── Makefile                 # To install, uninstall, check requirements and a short about section
-├── check_requirements.sh    # Script that checks for requirements
-├── image-assets             # Directory for all documentation related image assets
-├── .gitignore               # File to primarily exclude .idea and .DS_Store
-├── .github                  # Pull Request, Issues Templates and Changelog
-└── LICENSE                  # MIT License file
+├── hal2023                     # Main script
+├── README.md                   # Documentation file
+├── CONTRIBUTING.md             # Contributing document
+├── CODE_OF_CONDUCT.md          # Code of Conduct document
+├── Makefile                    # To install, uninstall, check requirements and a short about section
+├── check_requirements.sh       # Script that checks for requirements
+├── image-assets                # Directory for all documentation related image assets
+├── .gitignore                  # File to primarily exclude .idea and .DS_Store
+├── .github                  
+  └── CHANGELOG.md              # Changelog
+  ├── ISSUES_TEMPLATE.md        # Issues reporting template
+  └── PULL_REQUEST_TEMPLATE.md  # Pull request submission template
+└── LICENSE                     # MIT License file
 ```
 
-#### Documents
-
-[Pull Request Template](.github/PULL_REQUEST_TEMPLATE.md)
-
-Changes can be tracked in the [CHANGELOG](.github/CHANGELOG.md)
-
-#### Issues
+#### Documentation
 
 [Issues Template](.github/ISSUES_TEMPLATE.md). Please report any issues or feature requests [here](https://github.com/Brutuski/hal2023-cli/issues).
 
-[Contributing](CONTRIBUTING.md)
+Changes can be tracked in the [CHANGELOG](.github/CHANGELOG.md)
+
+To contribute, please check out [Contributing](CONTRIBUTING.md) and [Pull Request Template](.github/PULL_REQUEST_TEMPLATE.md)
 
 [Code of Conduct](CODE_OF_CONDUCT.md)
 

@@ -87,12 +87,14 @@ function connection_error() {
 # model: ChatGPT Model to be used in the curl request
 # response: Response from curl, without jq
 # response_parsed: 'response' parsed for message from ChatGPT with text folded to break lines at the max width of the terminal
+# response_glow: 'response_parsed' along with 'glow' formatting
 # tokens_used: `response` parsed to extract the total number of tokens used for the query
 function chat_response() {
   local input=$1
   local model="gpt-3.5-turbo"
   local response
   local response_parsed
+  local response_glow
   local tokens_used
 
   response=$(curl -sS https://api.openai.com/v1/chat/completions \
@@ -111,7 +113,16 @@ function chat_response() {
   tokens_used=$(echo "$response" | jq -r '.usage.total_tokens')
 
   connection_error "$response"
-  echo -e "\n${CHATGPT} \033[2m${tokens_used}｣\033[0m:\n${GREEN}${response_parsed}${RESET}"
+
+  # If 'glow' is installed, it is used for formatting
+  # Otherwise the output is folded to break lines at the width of the terminal
+  if command -v "glow" >/dev/null 2>&1; then
+    response_glow=$(echo "$response" | jq -r '.choices[].message.content' | glow)
+    echo -e "\n${CHATGPT} \033[2m${tokens_used}｣\033[0m:\n${GREEN}${response_glow}${RESET}"
+  else
+    echo -e "\n${CHATGPT} \033[2m${tokens_used}｣\033[0m:\n${GREEN}${response_parsed}${RESET}"
+  fi
+
   save_history "$input" "$response_parsed" "$model" "$tokens_used"
 }
 
@@ -120,12 +131,14 @@ function chat_response() {
 # model: ChatGPT Model to be used in the curl request
 # response: Response from curl, without jq
 # response_parsed: 'response' parsed for message from ChatGPT with text folded to break lines at the max width of the terminal
+# response_glow: 'response_parsed' along with 'glow' formatting
 # tokens_used: `response` parsed to extract the total number of tokens used for the query
 function chat_response_davinci() {
   local input=$1
   local model="text-davinci-003"
   local response
   local response_parsed
+  local response_glow
   local tokens_used
 
   response=$(curl -sS https://api.openai.com/v1/completions \
@@ -142,7 +155,16 @@ function chat_response_davinci() {
   tokens_used=$(echo "$response" | jq -r '.usage.total_tokens')
 
   connection_error "$response"
-  echo -e "\n${CHATGPT_DAVINCI} \033[2m${tokens_used}｣\033[0m:\n${GREEN}${response_parsed}${RESET}"
+
+  # If 'glow' is installed, it is used for formatting
+  # Otherwise the output is folded to break lines at the width of the terminal
+  if command -v "glow" >/dev/null 2>&1; then
+    response_glow=$(echo "$response" | jq -r '.choices[].text' | sed '1,2d' | glow)
+    echo -e "\n${CHATGPT_DAVINCI} \033[2m${tokens_used}｣\033[0m:\n${GREEN}${response_glow}${RESET}"
+  else
+    echo -e "\n${CHATGPT_DAVINCI} \033[2m${tokens_used}｣\033[0m:\n${GREEN}${response_parsed}${RESET}"
+  fi
+
   save_history "$input" "$response_parsed" "$model" "$tokens_used"
 }
 
@@ -187,12 +209,14 @@ function image_generation() {
 # model: ChatGPT Model to be used in the curl request
 # response: Response from curl, without jq
 # response_parsed: 'response' parsed for message from ChatGPT with text folded to break lines at the max width of the terminal
+# response_glow: 'response_parsed' along with 'glow' formatting
 # tokens_used: `response` parsed to extract the total number of tokens used for the query
 function chat_response_gpt4() {
   local input=$1
   local model="gpt-4"
   local response
   local response_parsed
+  local response_glow
   local tokens_used
 
   response=$(curl -sS https://api.openai.com/v1/chat/completions \
@@ -211,7 +235,16 @@ function chat_response_gpt4() {
   tokens_used=$(echo "$response" | jq -r '.usage.total_tokens')
 
   connection_error "$response"
-  echo -e "\n${CHATGPT_GPT4} \033[2m${tokens_used}｣\033[0m:\n${GREEN}${response_parsed}${RESET}"
+
+  # If 'glow' is installed, it is used for formatting
+  # Otherwise the output is folded to break lines at the width of the terminal
+  if command -v "glow" >/dev/null 2>&1; then
+    response_parsed=$(echo "$response" | jq -r '.choices[].text' | sed '1,2d' | glow)
+    echo -e "\n${CHATGPT_GPT4} \033[2m${tokens_used}｣\033[0m:\n${GREEN}${response_glow}${RESET}"
+  else
+    echo -e "\n${CHATGPT_GPT4} \033[2m${tokens_used}｣\033[0m:\n${GREEN}${response_parsed}${RESET}"
+  fi
+
   save_history "$input" "$response_parsed" "$model" "$tokens_used"
 }
 
