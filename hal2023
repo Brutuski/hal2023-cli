@@ -58,9 +58,12 @@ readonly DATE=$(date +"%d-%m-%Y")
 # Pre-defined prompts
 readonly PROMPT_CMD="You are an AI assistant. You will generate a SINGLE LINE SHELL COMMAND based on user input. The command should be ready to be executed in the terminal. Show no explanation."
 
+# Message to indicate loading of OpenAI's API response
+readonly LOADING="${YELLOW}Loading...${RESET}"
+
 # Logo printed when the script is executed
 printf "\033c"
-echo -e "\n${YELLOW}${ASCII}${RESET}\n"
+echo -e "\n${BLUE}${ASCII}${RESET}\n"
 
 # Checks for ChatGPT Error Message
 # response: Response from curl, without jq
@@ -97,6 +100,9 @@ function chat_response() {
   local response_glow
   local tokens_used
 
+  # Loading message while waiting for response
+  echo -e "\n$LOADING"
+
   response=$(curl -sS https://api.openai.com/v1/chat/completions \
     -H "Authorization: Bearer $API_KEY" \
     -H "Content-Type: application/json" \
@@ -118,9 +124,12 @@ function chat_response() {
   # Otherwise the output is folded to break lines at the width of the terminal
   if command -v "glow" >/dev/null 2>&1; then
     response_glow=$(echo "$response" | jq -r '.choices[].message.content' | glow)
-    echo -e "\n${CHATGPT} \033[2m${tokens_used}｣\033[0m:\n${GREEN}${response_glow}${RESET}"
+    # Moves the cursor one line up, and deleted the last printed line
+    tput cuu1 && tput dl1
+    echo -e "${CHATGPT} \033[2m${tokens_used}｣\033[0m:${GREEN}${response_glow}${RESET}"
   else
-    echo -e "\n${CHATGPT} \033[2m${tokens_used}｣\033[0m:\n${GREEN}${response_parsed}${RESET}"
+    tput cuu1 && tput dl1
+    echo -e "${CHATGPT} \033[2m${tokens_used}｣\033[0m:${GREEN}${response_parsed}${RESET}"
   fi
 
   save_history "$input" "$response_parsed" "$model" "$tokens_used"
@@ -141,6 +150,9 @@ function chat_response_davinci() {
   local response_glow
   local tokens_used
 
+  # Loading message while waiting for response
+  echo -e "\n$LOADING"
+
   response=$(curl -sS https://api.openai.com/v1/completions \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $API_KEY" \
@@ -160,9 +172,12 @@ function chat_response_davinci() {
   # Otherwise the output is folded to break lines at the width of the terminal
   if command -v "glow" >/dev/null 2>&1; then
     response_glow=$(echo "$response" | jq -r '.choices[].text' | sed '1,2d' | glow)
-    echo -e "\n${CHATGPT_DAVINCI} \033[2m${tokens_used}｣\033[0m:\n${GREEN}${response_glow}${RESET}"
+    # Moves the cursor one line up, and deleted the last printed line
+    tput cuu1 && tput dl1
+    echo -e "${CHATGPT_DAVINCI} \033[2m${tokens_used}｣\033[0m:${GREEN}${response_glow}${RESET}"
   else
-    echo -e "\n${CHATGPT_DAVINCI} \033[2m${tokens_used}｣\033[0m:\n${GREEN}${response_parsed}${RESET}"
+    tput cuu1 && tput dl1
+    echo -e "${CHATGPT_DAVINCI} \033[2m${tokens_used}｣\033[0m:${GREEN}${response_parsed}${RESET}"
   fi
 
   save_history "$input" "$response_parsed" "$model" "$tokens_used"
@@ -181,6 +196,9 @@ function image_generation() {
   local model="DALL.E"
   local response
 
+  # Loading message while waiting for response
+  echo -e "\n$LOADING"
+
   response=$(curl -sS https://api.openai.com/v1/images/generations \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $API_KEY" \
@@ -196,9 +214,12 @@ function image_generation() {
   url_short=$(wget -qO- -U Mozilla http://tinyurl.com/api-create.php?url=$image_url)
 
   if [ "$image_url" == null ]; then
+    # Moves the cursor one line up, and deleted the last printed line
+    tput cuu1 && tput dl1
     connection_error "$response"
   else
-    echo -e "\n${CHATGPT_IMAGE} ${GREEN}Image was successfully generated${RESET}"
+    tput cuu1 && tput dl1
+    echo -e "${CHATGPT_IMAGE} ${GREEN}Image was successfully generated${RESET}"
     echo -e "Link: $url_short"
     save_history "$input" "$success_message" "$model" "NA"
   fi
@@ -218,6 +239,9 @@ function chat_response_gpt4() {
   local response_parsed
   local response_glow
   local tokens_used
+
+  # Loading message while waiting for response
+  echo -e "\n$LOADING"
 
   response=$(curl -sS https://api.openai.com/v1/chat/completions \
     -H "Authorization: Bearer $API_KEY" \
@@ -240,9 +264,12 @@ function chat_response_gpt4() {
   # Otherwise the output is folded to break lines at the width of the terminal
   if command -v "glow" >/dev/null 2>&1; then
     response_parsed=$(echo "$response" | jq -r '.choices[].text' | sed '1,2d' | glow)
-    echo -e "\n${CHATGPT_GPT4} \033[2m${tokens_used}｣\033[0m:\n${GREEN}${response_glow}${RESET}"
+    # Moves the cursor one line up, and deleted the last printed line
+    tput cuu1 && tput dl1
+    echo -e "${CHATGPT_GPT4} \033[2m${tokens_used}｣\033[0m:${GREEN}${response_glow}${RESET}"
   else
-    echo -e "\n${CHATGPT_GPT4} \033[2m${tokens_used}｣\033[0m:\n${GREEN}${response_parsed}${RESET}"
+    tput cuu1 && tput dl1
+    echo -e "${CHATGPT_GPT4} \033[2m${tokens_used}｣\033[0m:${GREEN}${response_parsed}${RESET}"
   fi
 
   save_history "$input" "$response_parsed" "$model" "$tokens_used"
@@ -261,6 +288,9 @@ function command_generation() {
   local response_parsed
   local tokens_used
 
+  # Loading message while waiting for response
+  echo -e "\n$LOADING"
+
   response=$(curl -sS https://api.openai.com/v1/chat/completions \
     -H "Authorization: Bearer $API_KEY" \
     -H "Content-Type: application/json" \
@@ -278,7 +308,9 @@ function command_generation() {
   tokens_used=$(echo "$response" | jq -r '.usage.total_tokens')
 
   connection_error "$response"
-  echo -e "\n${CHATGPT} \033[2m${tokens_used}｣\033[0m:\n${GREEN}${response_parsed}${RESET}"
+  # Moves the cursor one line up, and deleted the last printed line
+  tput cuu1 && tput dl1
+  echo -e "${CHATGPT} \033[2m${tokens_used}｣\033[0m:\n${GREEN}${response_parsed}${RESET}"
   save_history "$input" "$response_parsed" "$model" "$tokens_used"
 }
 

@@ -13,6 +13,8 @@ _12/04/2023_
   - Optional requirement. If `glow` is found on a system, it is used to format OpenAI's response.
 - Update README + Minor formatting.
 - Updates `check_requirements.sh` to check for `glow`.
+- Loading message displayed while waiting for API response.
+- Changed logo color to blue.
 
 #### v1.10.9
 
