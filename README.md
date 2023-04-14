@@ -1,10 +1,9 @@
-<h2 align="center">HAL 2023</h2>
+<p align="center"><img src="./image-assets/logo.svg" width="250"><p>
 <h4 align="center">A simple script to chat with OpenAI's ChatGPT</h4>
-<p align="center"><img src="./image-assets/icon.png" width="150" height="150"><p>
 <p align="center">
         <img alt="Script" src="https://img.shields.io/badge/Shell_Script-121011?style=for-the-badge&logo=gnu-bash&logoColor=white">
-        <img alt="License" src="https://img.shields.io/badge/MIT-LICENSE-1976D2?style=for-the-badge">
-        <img alt="License" src="https://img.shields.io/badge/v-1.10.10-D8DEE9?style=for-the-badge">
+        <a href="https://github.com/Brutuski/hal2023-cli/blob/main/LICENSE"> <img alt="License" src="https://img.shields.io/badge/MIT-LICENSE-1976D2?style=for-the-badge"></a>
+        <img alt="Version" src="https://img.shields.io/badge/v-1.10.10-D8DEE9?style=for-the-badge">
 </p>
 
 ### Index
@@ -18,6 +17,7 @@
 - [Uninstall](#uninstall)
 - [Project Structure](#project-structure)
 - [Documentation](#documentation)
+- [OpenAI's Data Policy](#openais-data-policy)
 
 #### Introduction
 
@@ -43,6 +43,7 @@ your query after that.
 <p align="center"><img src="./image-assets/screenshot-1.png"><p>
 <p align="center"><img src="./image-assets/screenshot-2.png"><p>
 <p align="center"><img src="./image-assets/screenshot-3.png"><p>
+<p align="center"><img src="./image-assets/recording.gif" width="750"><p>
 
 #### Requirements
 
@@ -50,7 +51,8 @@ your query after that.
 - [jq](https://stedolan.github.io/jq/)
 - [wget](https://www.gnu.org/software/wget/)
 
-##### Optional 
+##### Optional
+
 - [glow](https://github.com/charmbracelet/glow) helps with better output formatting.
 
 #### Installation
@@ -129,13 +131,17 @@ manually if required.
 
 #### Documentation
 
-[Issues Template](.github/ISSUES_TEMPLATE.md). Please report any issues or feature requests [here](https://github.com/Brutuski/hal2023-cli/issues).
+[Issues Template](.github/ISSUES_TEMPLATE.md). Please report any issues or feature
+requests [here](https://github.com/Brutuski/hal2023-cli/issues).
 
-Changes can be tracked in the [CHANGELOG](.github/CHANGELOG.md)
+Changes can be tracked in the [Changelog](.github/CHANGELOG.md)
 
-To contribute, please check out [Contributing](CONTRIBUTING.md) and [Pull Request Template](.github/PULL_REQUEST_TEMPLATE.md)
+To contribute, please check out [Contributing](CONTRIBUTING.md)
+and [Pull Request Template](.github/PULL_REQUEST_TEMPLATE.md)
 
 [Code of Conduct](CODE_OF_CONDUCT.md)
 
-#### License [MIT](https://github.com/Brutuski/hal2023-cli/blob/main/LICENSE)
+#### OpenAI's Data Policy
 
+Please refer to [OpenAI's data usage policy](https://openai.com/policies/api-data-usage-policies) to stay informed about
+how your queries and prompts are being handled by them.
