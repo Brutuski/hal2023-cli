@@ -494,7 +494,7 @@ while true; do
   unset REPLY input
   while read -re; do
     [[ -n "$REPLY" ]] || break
-    input="$input"${input:+$'\n'}"$REPLY"
+    input="$input${input:\\n}$REPLY"
   done; input="${input:-$REPLY}"
 
   if [ "$input" == "exit" ] || [ "$input" == "quit" ] || [ "$input" == ":q" ]; then
