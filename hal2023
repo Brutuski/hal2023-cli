@@ -59,7 +59,7 @@ readonly DATE=$(date +"%d-%m-%Y")
 readonly PROMPT_CMD="You are an AI assistant. You will generate a SINGLE LINE SHELL COMMAND based on user input. The command should be ready to be executed in the terminal. Show no explanation."
 
 # Message to indicate loading of OpenAI's API response
-readonly LOADING="${YELLOW}Loading...${RESET}"
+readonly LOADING="${YELLOW}\033[5mLoading...${RESET}"
 
 # Logo printed when the script is executed
 printf "\033c"
@@ -124,11 +124,11 @@ function chat_response() {
   # Otherwise the output is folded to break lines at the width of the terminal
   if command -v "glow" >/dev/null 2>&1; then
     response_glow=$(echo "$response" | jq -r '.choices[].message.content' | glow)
-    # Moves the cursor one line up, and deleted the last printed line
-    tput cuu1 && tput dl1
+    # Moves the cursor two line up, and deleted the last two printed line, thus removing the Loading message
+    tput cuu1 && tput dl1 && tput cuu1 && tput dl1
     echo -e "${CHATGPT} \033[2m${tokens_used}｣\033[0m:${GREEN}${response_glow}${RESET}"
   else
-    tput cuu1 && tput dl1
+    tput cuu1 && tput dl1 && tput cuu1 && tput dl1
     echo -e "${CHATGPT} \033[2m${tokens_used}｣\033[0m:${GREEN}${response_parsed}${RESET}"
   fi
 
@@ -172,11 +172,11 @@ function chat_response_davinci() {
   # Otherwise the output is folded to break lines at the width of the terminal
   if command -v "glow" >/dev/null 2>&1; then
     response_glow=$(echo "$response" | jq -r '.choices[].text' | sed '1,2d' | glow)
-    # Moves the cursor one line up, and deleted the last printed line
-    tput cuu1 && tput dl1
+    # Moves the cursor two line up, and deleted the last two printed line, thus removing the Loading message
+    tput cuu1 && tput dl1 && tput cuu1 && tput dl1
     echo -e "${CHATGPT_DAVINCI} \033[2m${tokens_used}｣\033[0m:${GREEN}${response_glow}${RESET}"
   else
-    tput cuu1 && tput dl1
+    tput cuu1 && tput dl1 && tput cuu1 && tput dl1
     echo -e "${CHATGPT_DAVINCI} \033[2m${tokens_used}｣\033[0m:${GREEN}${response_parsed}${RESET}"
   fi
 
@@ -214,11 +214,11 @@ function image_generation() {
   url_short=$(wget -qO- -U Mozilla http://tinyurl.com/api-create.php?url=$image_url)
 
   if [ "$image_url" == null ]; then
-    # Moves the cursor one line up, and deleted the last printed line
-    tput cuu1 && tput dl1
+    # Moves the cursor two line up, and deleted the last two printed line, thus removing the Loading message
+    tput cuu1 && tput dl1 && tput cuu1 && tput dl1
     connection_error "$response"
   else
-    tput cuu1 && tput dl1
+    tput cuu1 && tput dl1 && tput cuu1 && tput dl1
     echo -e "${CHATGPT_IMAGE} ${GREEN}Image was successfully generated${RESET}"
     echo -e "Link: $url_short"
     save_history "$input" "$success_message" "$model" "NA"
@@ -264,11 +264,11 @@ function chat_response_gpt4() {
   # Otherwise the output is folded to break lines at the width of the terminal
   if command -v "glow" >/dev/null 2>&1; then
     response_parsed=$(echo "$response" | jq -r '.choices[].text' | sed '1,2d' | glow)
-    # Moves the cursor one line up, and deleted the last printed line
-    tput cuu1 && tput dl1
+    # Moves the cursor two line up, and deleted the last two printed line, thus removing the Loading message
+    tput cuu1 && tput dl1 && tput cuu1 && tput dl1
     echo -e "${CHATGPT_GPT4} \033[2m${tokens_used}｣\033[0m:${GREEN}${response_glow}${RESET}"
   else
-    tput cuu1 && tput dl1
+    tput cuu1 && tput dl1 && tput cuu1 && tput dl1
     echo -e "${CHATGPT_GPT4} \033[2m${tokens_used}｣\033[0m:${GREEN}${response_parsed}${RESET}"
   fi
 
@@ -308,8 +308,8 @@ function command_generation() {
   tokens_used=$(echo "$response" | jq -r '.usage.total_tokens')
 
   connection_error "$response"
-  # Moves the cursor one line up, and deleted the last printed line
-  tput cuu1 && tput dl1
+    # Moves the cursor two line up, and deleted the last two printed line, thus removing the Loading message
+  tput cuu1 && tput dl1 && tput cuu1 && tput dl1
   echo -e "${CHATGPT} \033[2m${tokens_used}｣\033[0m:\n${GREEN}${response_parsed}${RESET}"
   save_history "$input" "$response_parsed" "$model" "$tokens_used"
 }
@@ -487,10 +487,11 @@ fi
 # "-article" or "--a" keyword points the user to set the length, tone and then finally prompt input for article generation using the 'gpt-3.5-turbo'
 while true; do
   echo -e "\n\033[2mType exit, quit or :q to exit.\033[0m"
-  echo -e "${WHITE}Write a query...${RESET}"
+  echo -e "\033[3mWrite a query and press enter twice\033[0m\n"
 
   # Reads the input in raw mode + readline mode
   # Press ENTER twice (empty newline) to accept input
+  # Any trailing whitespaces and newlines are
   unset REPLY input
   while read -re; do
     [[ -n "$REPLY" ]] || break

@@ -3,7 +3,7 @@
 <p align="center">
         <img alt="Script" src="https://img.shields.io/badge/Shell_Script-121011?style=for-the-badge&logo=gnu-bash&logoColor=white">
         <a href="https://github.com/Brutuski/hal2023-cli/blob/main/LICENSE"> <img alt="License" src="https://img.shields.io/badge/MIT-LICENSE-1976D2?style=for-the-badge"></a>
-        <img alt="Version" src="https://img.shields.io/badge/v-1.10.10-D8DEE9?style=for-the-badge">
+        <img alt="Version" src="https://img.shields.io/badge/v-1.10.11-D8DEE9?style=for-the-badge">
 </p>
 
 ### Index
@@ -77,9 +77,11 @@ your query after that.
 
 - To exit simply type `exit` or `quit` or `:q`
 
+- Multiline prompts are supported as. Press `enter` once
+  to continue your prompt in a newline. Press `enter` twice to send the prompt.
 
 - Default model is `gpt-3.5-turbo`. If you would like to interact with the `text-davinci-003` model simply start your
-  query with `-davinci`
+  prompt with `-davinci`
 
 - To interact with `gpt-4` model, start the prompt with `-gpt4` followed by the query.
 
@@ -123,7 +125,7 @@ manually if required.
 ├── image-assets                # Directory for all documentation related image assets
 ├── .gitignore                  # File to primarily exclude .idea and .DS_Store
 ├── .github                  
-  └── CHANGELOG.md              # Changelog
+  ├── CHANGELOG.md              # Changelog
   ├── ISSUES_TEMPLATE.md        # Issues reporting template
   └── PULL_REQUEST_TEMPLATE.md  # Pull request submission template
 └── LICENSE                     # MIT License file

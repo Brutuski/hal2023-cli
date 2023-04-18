@@ -3,8 +3,15 @@
 <p align="center">
         <img alt="Script" src="https://img.shields.io/badge/Shell_Script-121011?style=for-the-badge&logo=gnu-bash&logoColor=white">
         <img alt="License" src="https://img.shields.io/badge/MIT-LICENSE-1976D2?style=for-the-badge">
-        <img alt="License" src="https://img.shields.io/badge/v-1.10.10-D8DEE9?style=for-the-badge">
+        <img alt="License" src="https://img.shields.io/badge/v-1.10.11-D8DEE9?style=for-the-badge">
 </p>
+
+#### v1.10.11
+
+_18/04/2023_
+- Multiline input support added.
+  - [PR](https://github.com/Brutuski/hal2023-cli/pull/9) from [mountaineerbr](https://github.com/mountaineerbr) merged.
+- 'Loading' message blinks on supported terminals.
 
 #### v1.10.10
 
