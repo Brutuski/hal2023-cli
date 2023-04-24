@@ -14,7 +14,6 @@
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Uninstall](#uninstall)
 - [Project Structure](#project-structure)
 - [Documentation](#documentation)
 - [OpenAI's Data Policy](#openais-data-policy)
@@ -103,15 +102,6 @@ curl -sS https://github.com/Brutuski/hal2023-cli/blob/main/build.sh | sudo -E ba
   ```
 - A history feature has been added as of `v1.4.1`. The history file is created and maintained
   at `~/.hal2023_history.txt`.
-
-#### Uninstall
-
-```sh
-make uninstall
-```
-
-Please note: The history file (located at ~/.hal2023_history.txt) is not removed while uninstalling. You can delete it
-manually if required.
 
 #### Project Structure
 
