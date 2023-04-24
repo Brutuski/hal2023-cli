@@ -3,8 +3,14 @@
 <p align="center">
         <img alt="Script" src="https://img.shields.io/badge/Shell_Script-121011?style=for-the-badge&logo=gnu-bash&logoColor=white">
         <img alt="License" src="https://img.shields.io/badge/MIT-LICENSE-1976D2?style=for-the-badge">
-        <img alt="License" src="https://img.shields.io/badge/v-1.10.11-D8DEE9?style=for-the-badge">
+        <img alt="Version" src="https://img.shields.io/badge/v-1.11.11-D8DEE9?style=for-the-badge">
 </p>
+
+#### v1.11.11
+
+_24/04/2023_
+- Added `build.sh` as a way to more conveniently install the script.
+  - Removed `Makefile` and `check_requirements.sh`, as they are now redundant.
 
 #### v1.10.11
 

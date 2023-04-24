@@ -3,7 +3,7 @@
 <p align="center">
         <img alt="Script" src="https://img.shields.io/badge/Shell_Script-121011?style=for-the-badge&logo=gnu-bash&logoColor=white">
         <a href="https://github.com/Brutuski/hal2023-cli/blob/main/LICENSE"> <img alt="License" src="https://img.shields.io/badge/MIT-LICENSE-1976D2?style=for-the-badge"></a>
-        <img alt="Version" src="https://img.shields.io/badge/v-1.10.11-D8DEE9?style=for-the-badge">
+        <img alt="Version" src="https://img.shields.io/badge/v-1.11.11-D8DEE9?style=for-the-badge">
 </p>
 
 ### Index
@@ -18,6 +18,7 @@
 - [Project Structure](#project-structure)
 - [Documentation](#documentation)
 - [OpenAI's Data Policy](#openais-data-policy)
+- [Credit](#credit)
 
 #### Introduction
 
@@ -57,18 +58,17 @@ your query after that.
 
 #### Installation
 
-- Clone the repo
-  ```sh
-  git clone https://github.com/Brutuski/hal2023-cli.git
-  ```
-- Change directory
-   ```sh
-   cd hal2023-cli
-   ```
-- Run the script
-  ```sh
-  make install
-  ```
+```sh
+curl -sS https://github.com/Brutuski/hal2023-cli/blob/main/build.sh | sudo -E bash
+```
+
+##### Manual Installation
+
+- Download the latest release from [here](https://github.com/Brutuski/hal2023-cli/releases).
+- Unzip it and copy `hal2023` to `/usr/local/bin`.
+- You can copy it into any directory of your choice, but remember to add the path to your `$PATH`.
+- Store your OpenAI API key in your home directory as such `~/.chat-gpt-api`. Paste only your API key in said file with
+  no spaces or newlines.
 
 #### Usage
 
@@ -120,8 +120,7 @@ manually if required.
 ├── README.md                   # Documentation file
 ├── CONTRIBUTING.md             # Contributing document
 ├── CODE_OF_CONDUCT.md          # Code of Conduct document
-├── Makefile                    # To install, uninstall, check requirements and a short about section
-├── check_requirements.sh       # Script that checks for requirements
+├── build.sh                    # To install, check requirements and take API key input
 ├── image-assets                # Directory for all documentation related image assets
 ├── .gitignore                  # File to primarily exclude .idea and .DS_Store
 ├── .github                  
@@ -143,7 +142,11 @@ and [Pull Request Template](.github/PULL_REQUEST_TEMPLATE.md)
 
 [Code of Conduct](CODE_OF_CONDUCT.md)
 
-#### OpenAI's Data Policy
+### OpenAI's Data Policy
 
 Please refer to [OpenAI's data usage policy](https://openai.com/policies/api-data-usage-policies) to stay informed about
 how your queries and prompts are being handled by them.
+
+### Credit
+The installation script was inspired by [bash-script-template](https://github.com/ralish/bash-script-template).
+It replaced the previously used method of `Makefile` and a separate `check_requirements.sh` script.
